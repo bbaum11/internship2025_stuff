@@ -14,7 +14,7 @@
     - activate connection
     - activate the interface/turn it off and back on
 - ip a
-  - shows the network interfaces and ip addresses
+	- shows the network interfaces and ip addresses
 - shutdown -h now
   -shuts down the system (needs root)
 
