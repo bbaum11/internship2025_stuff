@@ -16,7 +16,7 @@
 - ip a
 	- shows the network interfaces and ip addresses
 - shutdown -h now
-  -shuts down the system (needs root)
+	c-shuts down the system (needs root)
 
 ## how to set up network
 1. create internal network in VirtualBox
@@ -35,7 +35,7 @@
     2. choose adapter type under **Attached to**
     3. for the host-only adapters, chose the correct network under **Name**
 
-## connecting to the vm's from the windows host machine
+## connecting to the vm`s from the windows host machine
 1. open PowerShell
 2. **ssh-keygen**
 3. **cd .ssh**
@@ -45,7 +45,7 @@
 7. You can now use ssh to connect to the boxes using the set host names
 
 ## setting up ssh keys
-1. ssh-copy-id -f -i <public key> <username>@<hostname>
+1. ssh-copy-id -f -i `<public key> <username>@<hostname>`
 
 ## getting dnf to work on the workstation
 1. go to the [rocky downlaod link](https://mirrors.rockylinux.org/mirrormanager/)
@@ -62,17 +62,24 @@ point machines to that server
 
 1. install apache
 2. create folder in /var/www/html
-3. **dnf reposync -g -m —download-metadata -p /var/www/html/<repo>**
-4. Add the following in /etc/httpd/conf/httpd.conf:
-<VirtualHost *:80>
-	ServerName <server_ip>
- 	DocumentRoot /var/www/html/<repo>
-  	<Directory /var/www/html/<repo>/>
+3. Do this if you want to download everything: **dnf reposync -g -m —download-metadata -p /var/www/html/`<repo>`**
+4. Otherwise download individual rpms with **dnf download `<package>`**
+5. Add the following in /etc/httpd/conf/httpd.conf:
+`<VirtualHost *:80>`
+	ServerName `<server_ip>`
+ 	DocumentRoot /var/www/html/`repo>`
+  	`<Directory /var/www/html/<repo>/>`
    		Options Indexes
-   	</Directory>
-</VirtualHost>
+   	`</Directory>`
+`</VirtualHost>`
+
 
 on the client machines in /etc/yum.repos.d:
-[name of repo]
+[name_of_repo]
 name=name of repo
-baseurl=http://<server_ip>/<directorynameofrepo>
+baseurl=http://`<server_ip>`/`<directorynameofrepo>`
+enabled=1
+gpgcheck=0
+
+**TODO**
+delete welcome message and config on workstation
