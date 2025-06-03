@@ -10,9 +10,9 @@
 - nmtui
   - gui that configures network interfaces
   - to enable ipv4 on inet
-    1. nmtui
-    2. activate connection
-    3. activate the interface/turn it off and back on
+    - nmtui
+    - activate connection
+    - activate the interface/turn it off and back on
 - ip a
   - shows the network interfaces and ip addresses
 - shutdown -h now
@@ -25,14 +25,14 @@
   3. **DHCP Server -> Enable Server**
   4. Set Upper and Lower bounds
 2. on workstation, need 3 adapters
-  - host-only adapter for internal network (set to new internal network)
-  - host-only adapter (set to first internal network)
-  - NAT adapter
+  1. host-only adapter for internal network (set to new internal network)
+  2. host-only adapter (set to first internal network)
+  3. NAT adapter
 3. on minion and child, need 1 adapter
-  - host-only adapter for internal network (set to new internal network)
+  1. host-only adapter for internal network (set to new internal network)
 4. setting network interface
-  - select vm -> **Settings -> Network -> Adapter x -> Enable Network Adapter**
-  - choose adapter type under **Attached to**
-  - for the host-only adapters, chose the correct network under **Name**
+  1. select vm -> **Settings -> Network -> Adapter x -> Enable Network Adapter**
+  2. choose adapter type under **Attached to**
+  3. for the host-only adapters, chose the correct network under **Name**
 
 ## connecting to the vm's from the host machine
