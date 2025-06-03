@@ -19,11 +19,20 @@
   -shuts down the system (needs root)
 
 ## how to set up network
-1. on workstation, need 3 adapters
-  - internal network
-  - host-only adapter
+1. create internal network in VirtualBox
+  1. list icon next to **Tools -> Network -> Host-only Networks**
+  2. click **Create**
+  3. **DHCP Server -> Enable Server**
+  4. Set Upper and Lower bounds
+2. on workstation, need 3 adapters
+  - host-only adapter for internal network (set to new internal network)
+  - host-only adapter (set to first internal network)
   - NAT adapter
-2. on minion and child, only need 1 adapter for internal network
-3. on windows machine, do 'ssh-keygen' and create .ssh/config
-  - create with the following lines:
-    -
+3. on minion and child, need 1 adapter
+  - host-only adapter for internal network (set to new internal network)
+4. setting network interface
+  - select vm -> **Settings -> Network -> Adapter x -> Enable Network Adapter**
+  - choose adapter type under **Attached to**
+  - for the host-only adapters, chose the correct network under **Name**
+
+## connecting to the vm's from the host machine
