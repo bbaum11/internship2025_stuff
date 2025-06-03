@@ -60,7 +60,7 @@ https
 rpms into httpd folder
 point machines to that server
 
-1. install apache
+1. install httpd, createrepo_c, yum-utils
 2. create folder in /var/www/html
 3. Do this if you want to download everything: **dnf reposync -g -m —download-metadata -p /var/www/html/`<repo>`**
 4. Otherwise download individual rpms with **dnf download `<package>`**
@@ -73,6 +73,7 @@ point machines to that server
    	`</Directory>`
 `</VirtualHost>`
 
+enable http on firewall **firewall-cmd --zone=public -add-service=http --permanent** && **firewall-cmd reload**
 
 on the client machines in /etc/yum.repos.d:
 [name_of_repo]
@@ -80,6 +81,9 @@ name=name of repo
 baseurl=http://`<server_ip>`/`<directorynameofrepo>`
 enabled=1
 gpgcheck=0
+
+remove all other files in /etc/yum.repos.d/
+
 
 **TODO**
 delete welcome message and config on workstation
