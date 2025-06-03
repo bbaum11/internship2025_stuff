@@ -43,3 +43,36 @@
 5. Enter config settings in the template
 6. Make sure the file has no file extension (saved as config, not confix.txt)
 7. You can now use ssh to connect to the boxes using the set host names
+
+## setting up ssh keys
+1. ssh-copy-id -f -i <public key> <username>@<hostname>
+
+## getting dnf to work on the workstation
+1. go to the [rocky downlaod link](https://mirrors.rockylinux.org/mirrormanager/)
+2. select the icon left of the URL and navigate to **Connection is Secure** and view the certificate information
+3. Navigate to **Details** and under **Certificate Hierarchy** select the top level dropdown and **Export**
+4. save the file and move it onto the workstation inside of **etc/pki/ca-trust/source/anchors/** (need sudo)
+5. On the workstation, enter **sudo update-ca-trust**
+
+## next steps
+dnf download
+https
+rpms into httpd folder
+point machines to that server
+
+1. install apache
+2. create folder in /var/www/html
+3. **dnf reposync -g -m —download-metadata -p /var/www/html/<repo>**
+4. Add the following in /etc/httpd/conf/httpd.conf:
+<VirtualHost *:80>
+	ServerName <server_ip>
+ 	DocumentRoot /var/www/html/<repo>
+  	<Directory /var/www/html/<repo>/>
+   		Options Indexes
+   	</Directory>
+</VirtualHost>
+
+on the client machines in /etc/yum.repos.d:
+[name of repo]
+name=name of repo
+baseurl=http://<server_ip>/<directorynameofrepo>
