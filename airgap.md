@@ -41,4 +41,5 @@
 3. **cd .ssh**
 4. **notepad config**
 5. Enter config settings in the template
-6. You can now use ssh to connect to the boxes using the set host names
+6. Make sure the file has no file extension (saved as config, not confix.txt)
+7. You can now use ssh to connect to the boxes using the set host names
