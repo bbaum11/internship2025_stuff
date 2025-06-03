@@ -35,4 +35,10 @@
     2. choose adapter type under **Attached to**
     3. for the host-only adapters, chose the correct network under **Name**
 
-## connecting to the vm's from the host machine
+## connecting to the vm's from the windows host machine
+1. open PowerShell
+2. **ssh-keygen**
+3. **cd .ssh**
+4. **notepad config**
+5. Enter config settings in the template
+6. You can now use ssh to connect to the boxes using the set host names
