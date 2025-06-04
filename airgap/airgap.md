@@ -61,13 +61,13 @@
 	1. `sudo dnf install httpd createrepo_c yum-utils`
 	2. create a folder in **var/www/html**
 	3. Add the following in **/etc/httpd/conf/httpd.conf**:  
-<VirtualHost *:80>  
+```<VirtualHost *:80>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ServerName \<server_ip>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 	DocumentRoot /var/www/html/\<repo>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  	<Directory /var/www/html/\<repo>/  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   		Options Indexes  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   	\</Directory>  
-\</VirtualHost>
+\</VirtualHost>```
 	4. enable http traffic on the firewall: `firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload`
  	5. comment out all lines in **/etc/httpd/conf.d/welcome.conf**
 
@@ -81,11 +81,11 @@ if using a proxy, ensure proper certificate is used for rocky packages
 
 ### master/minion side
 1. on the client machines in **/etc/yum.repos.d**, make a file ending in .repo containing the following:  
-\[wks_repo]  
+```\[wks_repo]  
 name=workstation repo  
 baseurl=http://\<server_ip>/  
 enabled=1  
-gpgcheck=0
+gpgcheck=0```
 2. move all other .repo files out of the **/etc/yum.repos.d** folder
 
 ### to install programs onto the master and minion machines
