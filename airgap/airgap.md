@@ -33,7 +33,7 @@
   - tui that configures network interfaces
   - if dhcp is not working (ipv4 addresses not showing up)
   	- `nmtui`
-	- **activate connection**
+	- **Activate connection**
 	- activate the interface/turn it off and back on
 - ip a
 	- shows the network interfaces and ip addresses
