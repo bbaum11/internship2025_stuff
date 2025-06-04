@@ -77,8 +77,8 @@ point machines to that server
 2. create folder in /var/www/html
 3. Do this if you want to download everything: **`dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`**
 4. Otherwise download individual rpms with **`dnf download <package>`**
-5. Add the following in /etc/httpd/conf/httpd.conf:
-<VirtualHost *:80>
+5. Add the following in /etc/httpd/conf/httpd.conf:  
+<VirtualHost *:80>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ServerName \<server_ip>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 	DocumentRoot /var/www/html/\<repo>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  	<Directory /var/www/html/\<repo>/  
