@@ -7,10 +7,10 @@
     - open virtualbox
     - Select **New**
     - select the rocky iso for **ISO Image**
-    - Set a name under **Name and Operating System** and a login under **Unattended Install**
+    - Set a name under **Name and Operating System** and uncheck **Unattended Install**
     - Modify hardware resources under **Hardware** as desired
     - Select **Finish**
-- [fix for image checksum error](https://sangkyu519.medium.com/install-rhel-with-virtualbox-fix-checksum-error-daba1bf566b0)
+- [fix for image checksum error](https://sangkyu519.medium.com/install-rhel-with-virtualbox-fix-checksum-error-daba1bf566b0) if you performed an unattended install
 
 ## how to set up network
 1. create internal network in VirtualBox
