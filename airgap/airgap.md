@@ -4,7 +4,7 @@
 - download the iso
     - [Download Link](https://rockylinux.org/download)
 - create the vms
-    - open vmware
+    - open virtualbox
     - Select **New**
     - select the rocky iso for **ISO Image**
     - Set a name under **Name and Operating System** and a login under **Unattended Install**
