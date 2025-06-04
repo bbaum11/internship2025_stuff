@@ -35,7 +35,7 @@
     2. choose adapter type under **Attached to**
     3. for the host-only adapters, chose the correct network under **Name**
 
-## connecting to the vm`s from the windows host machine
+## connecting to the vms from the windows host machine
 1. open PowerShell
 2. **ssh-keygen**
 3. **cd .ssh**
@@ -47,12 +47,25 @@
 ## setting up ssh keys
 1. `ssh-copy-id -f -i <public key> <username>@<hostname>`
 
+
+## setting up the dnf registry
+
+### workstation side
+1. set up proper certificate for rocky packages
+	1. go to the [rocky downlaod link](https://mirrors.rockylinux.org/mirrormanager/)
+	2. select the icon left of the URL and navigate to **Connection is Secure** and view the certificate information
+	3. Navigate to **Details** and under **Certificate Hierarchy** select the top level dropdown and **Export**
+	4. save the file and move it onto the workstation inside of **etc/pki/ca-trust/source/anchors/** (need sudo)
+	5. On the workstation, enter **sudo update-ca-trust**
+2. install and configure httpd
+	1. `sudo dnf install httpd`
+	2. create a folder in **var/www/html**
+	3. 
+### master/minion side
+
+
 ## getting dnf to work on the workstation
-1. go to the [rocky downlaod link](https://mirrors.rockylinux.org/mirrormanager/)
-2. select the icon left of the URL and navigate to **Connection is Secure** and view the certificate information
-3. Navigate to **Details** and under **Certificate Hierarchy** select the top level dropdown and **Export**
-4. save the file and move it onto the workstation inside of **etc/pki/ca-trust/source/anchors/** (need sudo)
-5. On the workstation, enter **sudo update-ca-trust**
+	
 
 ## next steps
 dnf download
@@ -65,13 +78,13 @@ point machines to that server
 3. Do this if you want to download everything: **`dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`**
 4. Otherwise download individual rpms with **`dnf download <package>`**
 5. Add the following in /etc/httpd/conf/httpd.conf:
-`<VirtualHost *:80>`
-	ServerName `<server_ip>`
- 	DocumentRoot /var/www/html/`repo>`
-  	`<Directory /var/www/html/<repo>/>`
-   		Options Indexes
-   	`</Directory>`
-`</VirtualHost>`
+<VirtualHost *:80>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ServerName \<server_ip>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 	DocumentRoot /var/www/html/\<repo>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  	<Directory /var/www/html/\<repo>/
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   		Options Indexes
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   	\</Directory>
+</VirtualHost>
 
 enable http on firewall **firewall-cmd --zone=public -add-service=http --permanent** && **firewall-cmd reload**
 
