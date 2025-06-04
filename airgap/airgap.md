@@ -49,7 +49,9 @@
 
 ## setting up ssh key authentication
 1. move the **\*.pub** key onto the workstation
-2. on the workstation, run `ssh-copy-id -f -i <public key> <username>@<hostname>` to move the key onto the master/minion boxes
+2. create a .ssh folder in the home directory if there isn't one
+3. run `cat \<key>.pub >> authorized_keys`
+4. on the workstation, run `ssh-copy-id -f -i <public key> <username>@<hostname>` to move the key onto the master/minion boxes
 
 
 ## setting up the dnf registry
