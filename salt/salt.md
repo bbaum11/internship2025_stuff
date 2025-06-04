@@ -2,6 +2,11 @@
 
 ## setting up salt master
 1. on the workstation, run `sudo dnf install salt-master`
+2. enable salt traffic on the firewall
+  1. 
 
 ## setting up salt minion
+1. add salt minion to the dnf repository
 2. on the workstation and the master/minion machines, run `sudo dnf install salt-minion`
+3. in **/etc/salt/minion**, uncomment the line `master: salt` and change it to `master: <workstation ip>`
+4. 
