@@ -58,7 +58,7 @@
 	4. save the file and move it onto the workstation inside of **etc/pki/ca-trust/source/anchors/** (need sudo)
 	5. On the workstation, enter **sudo update-ca-trust**
 2. install and configure httpd
-	1. `sudo dnf install httpd`
+	1. `sudo dnf install httpd createrepo_c yum-utils`
 	2. create a folder in **var/www/html**
 	3. Add the following in /etc/httpd/conf/httpd.conf:  
 <VirtualHost *:80>  
@@ -67,35 +67,23 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  	<Directory /var/www/html/\<repo>/  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   		Options Indexes  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   	\</Directory>  
-\</VirtualHost>  
+\</VirtualHost>
+	4. enable http traffic on the firewall: **firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload**
+ 	5. comment out all lines in **/etc/httpd/conf.d/welcome.conf
 
 ### master/minion side
-
-
-## getting dnf to work on the workstation
-	
-
-## next steps
-dnf download
-https
-rpms into httpd folder
-point machines to that server
-
-1. install httpd, createrepo_c, yum-utils
-2. create folder in /var/www/html
-3. Do this if you want to download everything: **`dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`**
-4. Otherwise download individual rpms with **`dnf download <package>`**
-5. 
-enable http on firewall **firewall-cmd --zone=public -add-service=http --permanent** && **firewall-cmd reload**
-
-on the client machines in /etc/yum.repos.d:
-[name_of_repo]
-name=name of repo
-baseurl=http://`<server_ip>`/`<directorynameofrepo>`
-enabled=1
+1. on the client machines in /etc/yum.repos.d:
+\[wks_repo]  
+name=workstation repo  
+baseurl=http://\<server_ip>/\<directorynameofrepo>  
+enabled=1  
 gpgcheck=0
+2. move all other .repo files out of the **/etc/yum.repos.d** folder
 
-remove all other files in /etc/yum.repos.d/
+
+Do this if you want to download everything: **`dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`**
+Otherwise download individual rpms with **`dnf download <package>`**
+
 
 
 **TODO**
