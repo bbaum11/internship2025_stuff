@@ -68,11 +68,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   		Options Indexes  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   	\</Directory>  
 \</VirtualHost>
-	4. enable http traffic on the firewall: **firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload**
+	4. enable http traffic on the firewall: `firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload`
  	5. comment out all lines in **/etc/httpd/conf.d/welcome.conf
 
 ### master/minion side
-1. on the client machines in /etc/yum.repos.d:
+1. on the client machines in /etc/yum.repos.d:  
 \[wks_repo]  
 name=workstation repo  
 baseurl=http://\<server_ip>/\<directorynameofrepo>  
@@ -80,11 +80,7 @@ enabled=1
 gpgcheck=0
 2. move all other .repo files out of the **/etc/yum.repos.d** folder
 
-
-Do this if you want to download everything: **`dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`**
-Otherwise download individual rpms with **`dnf download <package>`**
-
-
-
-**TODO**
-delete welcome message and config on workstation
+### to install programs onto the master and minion machines
+- do this if you want to download every possible package to the workstation: `dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`
+- otherwise download individual rpms on the workstation with `dnf download <package>`
+- then use `dnf install` on the master/minion machine as normal
