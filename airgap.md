@@ -45,7 +45,7 @@
 7. You can now use ssh to connect to the boxes using the set host names
 
 ## setting up ssh keys
-1. ssh-copy-id -f -i `<public key> <username>@<hostname>`
+1. 'ssh-copy-id -f -i <public key> <username>@<hostname>`
 
 ## getting dnf to work on the workstation
 1. go to the [rocky downlaod link](https://mirrors.rockylinux.org/mirrormanager/)
@@ -62,8 +62,8 @@ point machines to that server
 
 1. install httpd, createrepo_c, yum-utils
 2. create folder in /var/www/html
-3. Do this if you want to download everything: **dnf reposync -g -m —download-metadata -p /var/www/html/`<repo>`**
-4. Otherwise download individual rpms with **dnf download `<package>`**
+3. Do this if you want to download everything: **'dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`**
+4. Otherwise download individual rpms with **'dnf download <package>`**
 5. Add the following in /etc/httpd/conf/httpd.conf:
 `<VirtualHost *:80>`
 	ServerName `<server_ip>`
