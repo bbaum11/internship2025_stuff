@@ -3,7 +3,8 @@
 ## setting up salt master
 1. on the workstation, run `sudo dnf install salt-master`
 2. enable salt traffic on the firewall
-  1. 
+  1. sudo firewall-cmd --permanent --zone=public --add-port=4505-4506/tcp
+
 
 ## setting up salt minion
 1. add salt minion to the dnf repository
