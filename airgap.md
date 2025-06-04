@@ -84,7 +84,7 @@ point machines to that server
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  	<Directory /var/www/html/\<repo>/  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   		Options Indexes  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   	\</Directory>  
-</VirtualHost>  
+\</VirtualHost>  
 
 enable http on firewall **firewall-cmd --zone=public -add-service=http --permanent** && **firewall-cmd reload**
 
