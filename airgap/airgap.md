@@ -62,7 +62,8 @@
 	2. create a folder in **var/www/html**
 	3. Add the following in **/etc/httpd/conf/httpd.conf**:  
 
-```<VirtualHost *:80>  
+```
+<VirtualHost *:80>  
     ServerName <server_ip>  
  	DocumentRoot /var/www/html/<repo>  
   	<Directory /var/www/html/<repo>/  
