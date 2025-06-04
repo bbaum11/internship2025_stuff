@@ -1,0 +1,11 @@
+Host wks
+	Hostname <workstation ip>
+	User <workstation user>
+Host master
+	Hostname <k8s master ip>
+	User <k8s master user>
+	ProxyJump wks
+Host minion
+	Hostname <k8s minion ip>
+	User <k8s minion user>
+	ProxyJump wks
