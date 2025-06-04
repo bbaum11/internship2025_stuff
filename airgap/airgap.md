@@ -60,7 +60,7 @@
 1. install and configure httpd
 	1. `sudo dnf install httpd createrepo_c yum-utils`
 	2. create a folder in **var/www/html**
-	3. Add the following in /etc/httpd/conf/httpd.conf:  
+	3. Add the following in **/etc/httpd/conf/httpd.conf**:  
 <VirtualHost *:80>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ServerName \<server_ip>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 	DocumentRoot /var/www/html/\<repo>  
@@ -80,7 +80,7 @@ if using a proxy, ensure proper certificate is used for rocky packages
 5. On the workstation, enter **sudo update-ca-trust**
 
 ### master/minion side
-1. on the client machines in /etc/yum.repos.d:  
+1. on the client machines in **/etc/yum.repos.d**:  
 \[wks_repo]  
 name=workstation repo  
 baseurl=http://\<server_ip>/  
