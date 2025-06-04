@@ -75,7 +75,7 @@
 1. on the client machines in /etc/yum.repos.d:  
 \[wks_repo]  
 name=workstation repo  
-baseurl=http://\<server_ip>/\<directorynameofrepo>  
+baseurl=http://\<server_ip>/  
 enabled=1  
 gpgcheck=0
 2. move all other .repo files out of the **/etc/yum.repos.d** folder
@@ -84,3 +84,6 @@ gpgcheck=0
 - do this if you want to download every possible package to the workstation: `dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`
 - otherwise download individual rpms on the workstation with `dnf download <package>`
 - then use `dnf install` on the master/minion machine as normal
+
+## setting up the docker registry
+1. `$ docker run -d -p 5000:5000 --restart always --name registry registry:2`
