@@ -83,10 +83,10 @@ if using a proxy, ensure proper certificate is used for rocky packages
 
 ### master/minion side
 1. on the client machines in **/etc/yum.repos.d**, make a file ending in .repo containing the following:  
-```
-\[wks_repo]  
+
+```[wks_repo]  
 name=workstation repo  
-baseurl=http://\<server_ip>/  
+baseurl=http://<server_ip>/  
 enabled=1  
 gpgcheck=0
 ```
