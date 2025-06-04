@@ -80,7 +80,7 @@ if using a proxy, ensure proper certificate is used for rocky packages
 5. On the workstation, enter **sudo update-ca-trust**
 
 ### master/minion side
-1. on the client machines in **/etc/yum.repos.d**:  
+1. on the client machines in **/etc/yum.repos.d**, make a file ending in .repo containing the following:  
 \[wks_repo]  
 name=workstation repo  
 baseurl=http://\<server_ip>/  
