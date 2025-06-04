@@ -60,7 +60,8 @@
 1. install and configure httpd
 	1. `sudo dnf install httpd createrepo_c yum-utils`
 	2. create a folder in **var/www/html**
-	3. Add the following in **/etc/httpd/conf/httpd.conf**:  
+  	3. comment out all lines in **/etc/httpd/conf.d/welcome.conf**
+	4. Add the following in **/etc/httpd/conf/httpd.conf**:  
 
 ```
 <VirtualHost *:80>  
@@ -72,8 +73,7 @@
 </VirtualHost>
 ```
 
-	4. enable http traffic on the firewall: `firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload`
- 	5. comment out all lines in **/etc/httpd/conf.d/welcome.conf**
+4. enable http traffic on the firewall: `firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload`
 
 #### troubleshooting package installation difficulties
 if using a proxy, ensure proper certificate is used for rocky packages
