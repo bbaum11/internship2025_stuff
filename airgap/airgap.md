@@ -71,6 +71,7 @@
    	</Directory>  
 </VirtualHost>
 ```
+
 	4. enable http traffic on the firewall: `firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload`
  	5. comment out all lines in **/etc/httpd/conf.d/welcome.conf**
 
