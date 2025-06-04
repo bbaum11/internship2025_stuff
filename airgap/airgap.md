@@ -61,16 +61,16 @@
 	1. `sudo dnf install httpd createrepo_c yum-utils`
 	2. create a folder in **var/www/html**
 	3. Add the following in **/etc/httpd/conf/httpd.conf**:  
-```
-<VirtualHost *:80>  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ServerName \<server_ip>  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 	DocumentRoot /var/www/html/\<repo>  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  	<Directory /var/www/html/\<repo>/  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   		Options Indexes  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   	\</Directory>  
-\</VirtualHost>
 
-	```4. enable http traffic on the firewall: `firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload`
+```<VirtualHost *:80>  
+    ServerName <server_ip>  
+ 	DocumentRoot /var/www/html/<repo>  
+  	<Directory /var/www/html/<repo>/  
+   		Options Indexes  
+   	</Directory>  
+</VirtualHost>
+```
+	4. enable http traffic on the firewall: `firewall-cmd --zone=public -add-service=http --permanent && firewall-cmd reload`
  	5. comment out all lines in **/etc/httpd/conf.d/welcome.conf**
 
 #### troubleshooting package installation difficulties
