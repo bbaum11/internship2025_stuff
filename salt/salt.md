@@ -19,5 +19,3 @@
 - they can be denied with `salt-key -r <minion_id>`
 - they can be deleted with `salt-key -d <minion_id>`
 - all salt keys can be accepted with `salt-key -A`
-
-## TODO: build salt orchestration file
