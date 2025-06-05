@@ -1,3 +1,5 @@
+# remember to fix perms for the /srv/salt folder on the workstation
+
 # Doing stuff with Salt
 
 ## setting up salt master
