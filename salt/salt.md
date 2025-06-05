@@ -9,5 +9,13 @@
 1. add salt minion to the dnf repository
 2. on the workstation and the master/minion machines, run `sudo dnf install salt-minion`
 3. in **/etc/salt/minion**, uncomment the line `master: salt` and change it to `master: <workstation ip>`
+  1. the minion's id can also be set by uncommenting the `id:` line
+
+## accepting minions
+- minion keys can be listed with `salt-key`
+- they can be accepted with `salt-key -a <minion_id>'
+- they can be denied with `salt-key -r <minion_id>`
+- they can be deleted with `salt-key -d <minion_id>`
+- all salt keys can be accepted with `salt-key -A`
 
 ## TODO: build salt orchestration file
