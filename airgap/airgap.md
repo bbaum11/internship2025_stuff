@@ -107,4 +107,4 @@ gpgcheck=0
 3. `sudo dnf install epel-release.noarch`
 4. `dnf provides podman-compose`
 5. `sudo dnf install docker-compose-plugin`
-6. move the docker compose file onto the workstation and `run sudo podman compose up -d`
+6. move the docker compose file onto the workstation and run `sudo podman compose up -d`
