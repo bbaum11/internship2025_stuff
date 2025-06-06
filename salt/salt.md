@@ -19,3 +19,12 @@
 - they can be denied with `salt-key -r <minion_id>`
 - they can be deleted with `salt-key -d <minion_id>`
 - all salt keys can be accepted with `salt-key -A`
+
+## creating and running salt states
+- the main salt state file is defined in **/srv/salt/top.sls**
+- it is structured like so:
+```base:
+    '<minion_id>':
+      - <path_to_sls>
+      - <path_to_sls>
+```
