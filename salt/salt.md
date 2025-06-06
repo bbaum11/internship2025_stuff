@@ -5,6 +5,7 @@
 ## setting up salt master
 1. on the workstation, run `sudo dnf install salt-master`
 2. enable salt traffic on the firewall with `sudo firewall-cmd --permanent --zone=public --add-port=4505-4506/tcp && sudo firewall-cmd --reload`
+3. run `systemctl enable salt-master --now`
 
 
 ## setting up salt minion
@@ -12,6 +13,7 @@
 2. on the workstation and the master/minion machines, run `sudo dnf install salt-minion`
 3. in **/etc/salt/minion**, uncomment the line `master: salt` and change it to `master: <workstation ip>`
   1. the minion's id can also be set by uncommenting the `id:` line
+4. run `systemctl enable salt-minion --now`
 
 ## accepting minions
 - minion keys can be listed with `salt-key`
@@ -28,3 +30,6 @@
       - <path_to_sls>
       - <path_to_sls>
 ```
+- pillars are defined in **/srv/pillar/top.sls** and can be broken into seperate files the same as in the other top file
+- the salt state file can be run with `salt '*' state.apply pillar='{"field": "value"}'
+  - where 'pillar' is an optional argument that can create pillar values to be used in the code. in my implementation, a pillar is used for **server_ip**, the address of the workstation on the internal network.
