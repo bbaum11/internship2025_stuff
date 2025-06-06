@@ -105,6 +105,5 @@ gpgcheck=0
 	1. `podman run -d -p 5000:5000 --restart always --name registry registry:2`
 2. on the workstation, run the following:
 3. `sudo dnf install epel-release.noarch`
-4. `dnf provides podman-compose`
-5. `sudo dnf install docker-compose-plugin`
-6. move the docker compose file onto the workstation and run `sudo podman compose up -d`
+4. `sudo dnf install podman-compose`
+5. move the docker compose file onto the workstation and run `sudo podman compose up -d`
