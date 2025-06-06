@@ -15,8 +15,8 @@ config_the_config:
         - text: |
             <VirtualHost *:80>
                 ServerName {{server_ip}}
-                DocumentRoot /var/www/html/<repo>
-                <Directory /var/www/html/<repo>/
+                DocumentRoot /srv/repo
+                <Directory /srv/repo/
                     Options Indexes
                 </Directory>
             </VirtualHost>
