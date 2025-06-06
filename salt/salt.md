@@ -1,6 +1,10 @@
+
+# need to figure out how to get pillars working for services
 # remember to fix perms for the /srv/salt folder on the workstation
 
 # Doing stuff with Salt
+- [files for salt folder](salt/srv/salt)
+- [files for pillar folder](salt/srv/pillar)
 
 ## setting up salt master
 1. on the workstation, run `sudo dnf install salt-master`
