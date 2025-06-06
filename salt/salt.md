@@ -1,6 +1,7 @@
 
 # need to figure out how to get pillars working for services
 # remember to fix perms for the /srv/salt folder on the workstation
+# for some reason files can't be served from /srv/salt regardless of permissions
 
 # Doing stuff with Salt
 - [files for salt folder](srv/salt)
