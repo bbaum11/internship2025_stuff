@@ -3,8 +3,8 @@
 # remember to fix perms for the /srv/salt folder on the workstation
 
 # Doing stuff with Salt
-- [files for salt folder](salt/srv/salt)
-- [files for pillar folder](salt/srv/pillar)
+- [files for salt folder](srv/salt)
+- [files for pillar folder](srv/pillar)
 
 ## setting up salt master
 1. on the workstation, run `sudo dnf install salt-master`
