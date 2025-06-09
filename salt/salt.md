@@ -1,7 +1,8 @@
-
-# need to figure out how to get pillars working for services
+# 2 main issues
+1. can't serve files outside of /var/www/html
+2. can't get it to install createrepo when it's a pillar
 # remember to fix perms for the /srv/salt folder on the workstation
-# for some reason files can't be served from /srv/salt regardless of permissions
+
 
 # Doing stuff with Salt
 - [files for salt folder](srv/salt)
