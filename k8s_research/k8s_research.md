@@ -18,7 +18,6 @@
 
 
 ## container engines
-it is really hard to find information that doesn't conflict about whether an engine's runtime implements CRI
 
 ### docker
 - not supported for kubernetes 1.24+
@@ -27,11 +26,15 @@ it is really hard to find information that doesn't conflict about whether an eng
   - uses container network model (CNM)
 
 ### podman
-- i am getting a ton of conflicting information aobut whether podman's default container runtime implements CRI
-- however, the runtime can be changed to one that does implement it
+- uses runc by default, which (i am pretty sure) doesn't implement CRI
+- can be used with other runtimes to work with kubernetes
 
-### cri-o
-- this seems like the option that most sources are pushing for
+### `cri-o`
+- designed for kubernetes
+- non-root
+- lightweight
+- minimal components to focus on execution
+- doesn't need extra configuration to work with k8s
 
 ### containerd
 - dependency for docker
@@ -42,10 +45,20 @@ it is really hard to find information that doesn't conflict about whether an eng
 - not meant to be used direcctly by end-users
 
 ## container networking interface
-###
+
+### `cilium`
+- most popular CNI
+- most difficult to use
+- built with eBPF
+  - runs without modifying the kernel source code or loading new kernel modules
+
+### calico
+- puts routes into OS routing table
+- good for use with a team that is familiar with linux networking
+
+### flannel
 
 ## container storage interfaces
-
 ### `Rook Ceph`
 - distributed storage
 - fast and stable
@@ -95,7 +108,6 @@ i believe i am trying to find an ingress controller?
 - better for dev environments?
 
 ## secrets store
-
 ### HashiCorp Vault
 - secrets are stored in a centralized place and require authentication to access
 - runs as a server
@@ -105,3 +117,35 @@ i believe i am trying to find an ingress controller?
 - a kubernetes object is created and encrypted by the service
 - much easier for a smaller setup
 
+## kubernetes interface
+### kubectl
+- main way to interface with the cluster on the command line
+
+### `kubernetes dashboard`
+- developed by kubernetes
+- easy to deploy
+- authentication needs to be configured
+- no native multi-cluster, metrics, logs or monitoring
+
+### lens
+- multi-cluster support
+- auto detects clusters
+- easy access to logs, metrics, and events
+- no web interface; desktop only
+- not really ideal since you would need a gui
+
+
+## kubernetes platform
+### vanilla kubernetes
+- i mean it's kubernetes
+
+### openshift
+- security presets
+- good for multiple clusters
+- expensive
+- comes with gui dashboard
+
+### rancher
+- made to work with longhorn
+- should be run in its own cluster
+- provides a gui
