@@ -1,4 +1,4 @@
-{% set programs = salt["pillar.get"]("programs") %}
+{% set programs = salt["pillar.get"]("common_programs") %}
 {% for program in programs %}
 
 download_rpms:
