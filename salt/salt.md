@@ -1,5 +1,5 @@
 # 2 main issues
-1. can't serve files outside of /var/www/html
+1. won't list files outside of /var/www/html unless it's a directory
 2. can't get it to install createrepo when it's a pillar
 # remember to fix perms for the /srv/salt folder on the workstation
 
