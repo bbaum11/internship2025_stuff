@@ -16,6 +16,7 @@ dnf repo:
 - rke2-server
 - rke2-agent
 - git
+- docker (to deploy rancher)
 
 curl'd binaries
 - hauler
@@ -62,3 +63,8 @@ Installation:
 1. curl -sfL https://get.hauler.dev | bash
 
 ### MetalLB
+
+
+### [Rancher](https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/other-installation-methods/air-gapped-helm-cli-install/install-rancher-ha)
+- helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+- `helm fetch rancher-<CHART_REPO>/rancher
