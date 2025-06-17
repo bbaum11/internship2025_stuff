@@ -13,8 +13,6 @@
 
 ## downloading everything that will be installed on the air gap
 
-
-
 ### [RKE2](https://docs.rke2.io/install/methods#rpm)
 The rancher repository needs to be added as a mirror in order to download the RPM's for the rpm repo.
 
@@ -40,5 +38,11 @@ EOF
 ```
 2. download with `dnf download --alldep --resolve rke2-server` and `dnf download --alldep --resolve rke2-agent`
 3. createrepo the local rpm repo
+
+## Hauler
+This is a service created by rancher that allows for moving files onto an airgapped network. It works as a server that can store images, files, and charts which it then compresses into a file that is moved to the airgap. On the airgap, the file is then extracted and another Hauler server runs to serve those files.
+
+Installation:  
+1. curl -sfL https://get.hauler.dev | bash
 
 ### MetalLB
