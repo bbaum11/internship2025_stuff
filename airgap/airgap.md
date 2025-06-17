@@ -97,7 +97,7 @@ gpgcheck=0
 ### to install programs onto the master and minion machines
 - do this if you want to download every possible package to the workstation: `dnf reposync -g -m —download-metadata -p /var/www/html/<repo>`
 - otherwise download individual rpms on the workstation by navigating to the repository folder and `dnf download --alldep --resolve <package>`
-- then run `repocreate ./`
+- then run `createrepo ./`
 - then use `dnf update --refresh` and finally use `dnf install` on the master/minion machine as normal
 
 ## setting up the docker registry
