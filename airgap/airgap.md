@@ -102,7 +102,7 @@ gpgcheck=0
 
 ## setting up the docker registry
 1. visit a site like [this one](https://www.composerize.com/) to create a docker compose file or do it manually for this command:
-	1. `podman run -d -p 5000:5000 --restart always --name registry registry:2`
+	1. `docker run -d -p 5000:5000 --restart always --name registry registry:2`
 2. on the workstation, run the following:
 3. `sudo dnf install epel-release.noarch`
 4. `sudo dnf install podman-compose`
