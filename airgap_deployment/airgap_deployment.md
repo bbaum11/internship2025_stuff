@@ -6,10 +6,26 @@
 2. hauler
 2. helm
    1. also install on workstation to pull charts
+   2. git is a dependency
 3. load balancer: metallb
 4. ingress: traefik
 5. dashboard/management: rancher
 6. CSI: longhorn
+
+dnf repo:
+- rke2-server
+- rke2-agent
+- git
+
+curl'd binaries
+- hauler
+- helm
+
+helm charts
+- rancher
+- metallb
+- traefik
+- longhorn
 
 ## downloading everything that will be installed on the air gap
 
