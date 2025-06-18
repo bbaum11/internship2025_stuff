@@ -51,7 +51,7 @@ for this installation i am deploying rancher on a docker container for simplicit
    2. `./rancher-save-images.sh --image-list ./rancher-images.txt`
       1. **note:** if you are running podman, you may have an issue with pulling the images because of short-name resolution. to fix this, all lines in save-images.txt starting with `rancher/` need to have `docker.io/` prepended to them
          1. `sed -i '/rancher/s/^/docker.io\//' save-images.txt`
-      2. **also note** [you may need to add storage if you run out](giving-your-vm-more-storage)
+      2. **also note** [you may need to add storage if you run out](#giving-your-vm-more-storage)
 4. rancher-load-images.sh to load them into the docker registry
 5. 
 
