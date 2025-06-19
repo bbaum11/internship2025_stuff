@@ -9,8 +9,10 @@
    2. git is a dependency
 3. load balancer: metallb
 4. ingress: traefik
-5. dashboard/management: rancher
-6. CSI: longhorn
+   1. [image](https://hub.docker.com/_/traefik)
+   2. [helm chart]()
+6. dashboard/management: rancher
+7. CSI: longhorn
 
 dnf repo:
 - rke2-server
@@ -49,7 +51,8 @@ for this installation i am deploying rancher on a docker container for simplicit
 2. run rancher-save-images.sh
    1. `chmod +x rancher-save-images.sh`
    2. `./rancher-save-images.sh --image-list ./rancher-images.txt`
-      1. **note:** if you are running podman, you may have an issue with pulling the images because of short-name resolution. to fix this, all lines in save-images.txt starting with `rancher/` need to have `docker.io/` prepended to them
+      1. this will take a lot of time, especially for newer installations
+      2. **note:** if you are running podman, you may have an issue with pulling the images because of short-name resolution. to fix this, all lines in save-images.txt starting with `rancher/` need to have `docker.io/` prepended to them
          1. `sed -i '/rancher/s/^/docker.io\//' save-images.txt`
       2. **also note** [you may need to add storage if you run out](#giving-your-vm-more-storage)
 4. rancher-load-images.sh to load them into the docker registry
