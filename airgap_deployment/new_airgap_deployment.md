@@ -1,6 +1,14 @@
 ## Downloading all files to the workstation
 - note that all container images need to be pushed to the private docker registry, while all other files must be placed into the httpd repository, preferably in a separate folder from the rpms.
 
+### setting up pushing to/pulling from docker registry 
+by default, podman attempts to use https for traffic with a docker registry. to fix this, add the following in `/etc/containers/registries.conf`
+```
+[[registry]]
+  location = "localhost:5000"
+  insecure = true
+```
+
 ### downloading the container engine (cri-o)
 1. set the following environment variables:
 ```
