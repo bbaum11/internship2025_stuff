@@ -34,12 +34,12 @@ EOF
 `dnf download --alldep --resolve cri-o kubelet kubeadm kubectl`
 
 ### downloading the crictl tarball
-1. download the tar file
+1. download the tar file  
 `curl -L -O https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.33.0/crictl-v1.33.0-linux-amd64.tar.gz`
 
 ### downloading the k9s tarball
-1. download the tar file
-`https://github.com/derailed/k9s/releases/download/v0.50.6/k9s_Linux_amd64.tar.gz`
+1. download the tar file  
+`curl -L -O https://github.com/derailed/k9s/releases/download/v0.50.6/k9s_Linux_amd64.tar.gz`
 
 ### downloading longhorn's files
 1. download the list of needed images
