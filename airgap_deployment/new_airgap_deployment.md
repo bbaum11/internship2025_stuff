@@ -42,23 +42,23 @@ EOF
 `curl -L -O https://github.com/derailed/k9s/releases/download/v0.50.6/k9s_Linux_amd64.tar.gz`
 
 ### downloading longhorn's files
-1. download the list of needed images
+1. download the list of needed images  
 `wget https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/deploy/longhorn-images.txt`
-2. download the script to pull the images onto the local machine
+2. download the script to pull the images onto the local machine  
 `wget https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/scripts/save-images.sh`
-3. download the script to push the images to a private repository
+3. download the script to push the images to a private repository  
 `wget https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/scripts/load-images.sh`
-4. run the **save-images.sh** script
+4. run the **save-images.sh** script  
 ```
 chmod +x save-images.sh
 ./save-images.sh --image-list longhorn-images.txt --images longhorn-images.tar.gz
 ```
-5. run the **load-images.sh** script
+5. run the **load-images.sh** script  
 ```wget https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/scripts/load-images.sh
-chmod +x load-images.sh
+chmod +x load-images.sh  
 ./load-images.sh --image-list longhorn-images.txt --images longhorn-images.tar.gz --registry <DOCKER-REGISTRY>
 ```
-6. download the manifest file
+6. download the manifest file  
 `wget https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/deploy/longhorn.yaml`
 
 ### downloading calico's files
