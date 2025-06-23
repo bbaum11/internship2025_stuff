@@ -1,3 +1,6 @@
+## Downloading all files to the workstation
+- note that all container images need to be pushed to the private docker registry, while all other files must be placed into the httpd repository, preferably in a separate folder from the rpms.
+
 ### downloading the container engine (cri-o)
 1. set the following environment variables:
 ```
@@ -98,6 +101,11 @@ docker pull quay.io/tigera/operator:v1.15.1
 docker tag quay.io/tigera/operator:v1.15.1 <DOCKER-REGISTRY>/REPOSITORY-NAME>/operator:v1.15.1
 docker push <DOCKER-REGISTRY>/REPOSITORY-NAME>/library/operator:v1.15.1
 ```
+2. download the calico manifests
+```
+curl -L https://docs.projectcalico.org/manifests/tigera-operator.yaml -o tigera-operator.yaml
+curl -L https://docs.projectcalico.org/mfanifests/custom-resources.yaml -o custom-resources.yaml
+```
 
 ### downloading the necessary files for kuberenetes
 ```
@@ -117,9 +125,3 @@ for image in "${images[@]}"; do
   docker save -o "${image_name}.tar" "$image"
 done
 ```
-2. download the calico manifests
-```
-curl -L https://docs.projectcalico.org/manifests/tigera-operator.yaml -o tigera-operator.yaml
-curl -L https://docs.projectcalico.org/mfanifests/custom-resources.yaml -o custom-resources.yaml
-```
-
