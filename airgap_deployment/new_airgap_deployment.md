@@ -5,7 +5,7 @@
 by default, podman attempts to use https for traffic with a docker registry. to fix this, add the following in `/etc/containers/registries.conf`
 ```
 [[registry]]
-  location = "localhost:5000"
+  location = "<wks_ip>:5000"
   insecure = true
 ```
 
@@ -126,3 +126,7 @@ for image in "${images[@]}"; do
   docker save -o "${image_name}.tar" "$image"
 done
 ```
+
+### downloading the k3s files
+1. download the airgap images .tar.zst file from the [releases page](https://github.com/k3s-io/k3s/releases)
+2. 
