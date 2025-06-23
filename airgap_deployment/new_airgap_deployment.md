@@ -25,8 +25,8 @@ gpgcheck=1
 gpgkey=https://download.opensuse.org/repositories/isv:/cri-o:/stable:/$CRIO_VERSION/rpm/repodata/repomd.xml.key
 EOF
 ```
-3. download the dependencies to the local repository
+3. download the dependencies to the local repository  
 `dnf download --alldep --resolve container-selinux`
-4. download the crio, kubelet, kubeadm, and kubectl packages
+4. download the crio, kubelet, kubeadm, and kubectl packages  
 `dnf download --alldep --resolve cri-o kubelet kubeadm kubectl`
 5. 
