@@ -143,3 +143,21 @@ for image in $images; do
 done
 ```
 5. download the k3s binary for the same release on the releases page
+6. download the installation script
+`wget https://get.k3s.io/ --output-document=install.sh`
+
+
+
+## Installing k3s
+
+### troubleshooting k3s
+- private registry not working
+  - edit /etc/systemd/system/k3s.service
+    - add `--private-registry=/etc/rancher/k3s/registries.yaml ` under execstart
+  - edit /etc/rancher/k3s/repositories.yaml
+    - add this: ```
+      mirrors:
+  docker.io:
+    endpoint:
+      - "http://<WORKSTATION_IP:5000"
+      ```
