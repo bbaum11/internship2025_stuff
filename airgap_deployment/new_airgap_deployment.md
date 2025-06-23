@@ -29,4 +29,5 @@ EOF
 `dnf download --alldep --resolve container-selinux`
 4. download the crio, kubelet, kubeadm, and kubectl packages  
 `dnf download --alldep --resolve cri-o kubelet kubeadm kubectl`
-5. 
+
+
