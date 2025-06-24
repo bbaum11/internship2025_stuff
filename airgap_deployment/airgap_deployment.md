@@ -124,3 +124,23 @@ EOF
 ### downloading the crictl tarball
 1. download the tar file  
 `curl -L -O https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.33.0/crictl-v1.33.0-linux-amd64.tar.gz`
+
+
+### downloading the necessary files for kuberenetes
+```
+images=(
+  "registry.k8s.io/kube-apiserver:v1.32.6"
+  "registry.k8s.io/kube-controller-manager:v1.32.6"
+  "registry.k8s.io/kube-scheduler:v1.32.6"
+  "registry.k8s.io/kube-proxy:v1.32.6"
+  "registry.k8s.io/coredns/coredns:v1.11.3"
+  "registry.k8s.io/pause:3.10"
+  "registry.k8s.io/etcd:3.5.16-0"
+)
+
+for image in "${images[@]}"; do
+  docker pull "$image"
+  image_name=$(echo "$image" | sed 's|/|_|g' | sed 's/:/_/g')
+  docker save -o "${image_name}.tar" "$image"
+done
+```
