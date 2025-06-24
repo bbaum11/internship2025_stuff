@@ -131,6 +131,7 @@ mirrors:
     --disable-cloud-provider \
     --flannel-backend none \
     --private-registry /etc/rancher/k3s/registries.yaml \
+    --cluster-init \
 ```
 6. run `systemctl daemon-reload`
 7. start the k3s service with `systemctl start k3s`
