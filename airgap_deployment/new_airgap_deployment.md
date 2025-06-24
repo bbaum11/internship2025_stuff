@@ -98,10 +98,13 @@ done
     - add this
 ```
 mirrors:
-  "192.168.47.102:5000":
+  docker.io:
     endpoint:
       - "http://<WORKSTATION_IP>:5000"
-  docker.io:
+  quay.io:
+    endpoint:
+      - "http://<WORKSTATION_IP>:5000"
+  ghcr.io:
     endpoint:
       - "http://<WORKSTATION_IP>:5000"
 ```
