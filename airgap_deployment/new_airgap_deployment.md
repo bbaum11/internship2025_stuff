@@ -38,6 +38,7 @@ chmod +x load-images.sh
 
 
 ### downloading the files for canal
+`curl https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/canal.yaml -O`
 ```
 #!/bin/bash
 
