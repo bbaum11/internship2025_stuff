@@ -109,6 +109,36 @@ curl -L https://docs.projectcalico.org/manifests/tigera-operator.yaml -o tigera-
 curl -L https://docs.projectcalico.org/mfanifests/custom-resources.yaml -o custom-resources.yaml
 ```
 
+### downloading the files for canal
+```
+#!/bin/bash
+
+images=$(podman images --format '{{.Repository}}:{{.Tag}}' | grep -e calico -e flannel)
+
+for image in $images; do
+        echo "tagging: $image"
+        path_tag="${image#docker.io/}"
+
+        podman tag "${image}" "192.168.47.102:5000/$path_tag"
+done
+```
+```
+#!/bin/bash
+
+images=$(podman images --format '{{.Repository}}:{{.Tag}}' | grep '^192' | grep -e flannel -e calico)
+
+for image in $images; do
+        echo "Pushing: $image"
+        podman push "$image"
+        if [ $? -ne 0 ]; then
+                echo "failed pushing $image"
+        else
+                echo "pushed $image"
+        fi
+done
+```
+
+
 ### downloading the necessary files for kuberenetes
 ```
 images=(
@@ -190,4 +220,8 @@ mirrors:
     --flannel-backend none \
     --private-registry /etc/rancher/k3s/registries.yaml \
 ```
-6. start the k3s service with `systemctl start k3s`
+6. run `systemctl daemon-reload`
+7. start the k3s service with `systemctl start k3s`
+
+### Installing Canal
+1. 
