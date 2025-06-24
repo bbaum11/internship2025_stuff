@@ -1,5 +1,6 @@
 ## Downloading all files to the workstation
 - note that all container images need to be pushed to the private docker registry, while all other files must be placed into the httpd repository, preferably in a separate folder from the rpms.
+`sudo dmesg -n 1`
 
 ### setting up pushing to/pulling from docker registry 
 by default, podman attempts to use https for traffic with a docker registry. to fix this, add the following in `/etc/containers/registries.conf`
@@ -155,9 +156,38 @@ done
   - edit /etc/systemd/system/k3s.service
     - add `--private-registry=/etc/rancher/k3s/registries.yaml ` under execstart
   - edit /etc/rancher/k3s/repositories.yaml
-    - add this: ```
-      mirrors:
+    - add this
+```
+mirrors:
+  "192.168.47.102:5000":
+    endpoint:
+      - "http://<WORKSTATION_IP>:5000"
   docker.io:
     endpoint:
-      - "http://<WORKSTATION_IP:5000"
-      ```
+      - "http://<WORKSTATION_IP>:5000"
+```
+
+### installing on the master
+1. download the k3s binary and installation script
+`curl -L -O http://<WORKSTATION_IP>/path/to/file`
+2. change the binary ownership to root, move it to /usr/local/bin, and change the SELinux permissions
+`sudo chown root:root k3s`
+`sudo mv k3s /usr/local/bin/.`
+`sudo restorecon -v /usr/local/bin/k3s`
+3. create the file /etc/rancher/k3s/repositories.yaml
+```
+mirrors:
+  docker.io:
+    endpoint:
+      - "http://<WORKSTATION_IP>:5000"
+```
+4. run the installation script
+`INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true ./install.sh`
+5. edit **/etc/systemd/system/k3s.service** to add the following after **server** under **ExecStart**:
+```
+    --disable servicelb \
+    --disable-cloud-provider \
+    --flannel-backend none \
+    --private-registry /etc/rancher/k3s/registries.yaml \
+```
+6. start the k3s service with `systemctl start k3s`
