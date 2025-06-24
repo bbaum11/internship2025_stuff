@@ -251,3 +251,8 @@ mirrors:
 `k3s kubectl create namespace longhorn-system`
 6. apply the manifest
 `k3s kubectl apply -f longhorn.yaml`
+
+### setting up k9s
+1. allow traffic on port 10250 to allow the metrics server to communicate with the host
+`sudo firewall-cmd --add-port=10250/tcp --permanent`
+`sudo firewall-cmd --reload`
