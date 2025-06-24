@@ -85,3 +85,42 @@ This is a service created by rancher that allows for moving files onto an airgap
 
 Installation:  
 1. curl -sfL https://get.hauler.dev | bash
+
+
+
+
+### downloading the container engine (cri-o)
+1. set the following environment variables:
+```
+KUBERNETES_VERSION=v1.32
+CRIO_VERSION=v1.32
+```
+2. add the kubernetes and crio repositories
+```
+cat <<EOF | tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://pkgs.k8s.io/core:/stable:/$KUBERNETES_VERSION/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=https://pkgs.k8s.io/core:/stable:/$KUBERNETES_VERSION/rpm/repodata/repomd.xml.key
+EOF
+```
+```
+cat <<EOF | tee /etc/yum.repos.d/cri-o.repo
+[cri-o]
+name=CRI-O
+baseurl=https://download.opensuse.org/repositories/isv:/cri-o:/stable:/$CRIO_VERSION/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=https://download.opensuse.org/repositories/isv:/cri-o:/stable:/$CRIO_VERSION/rpm/repodata/repomd.xml.key
+EOF
+```
+3. download the dependencies to the local repository  
+`dnf download --alldep --resolve container-selinux`
+4. download the crio, kubelet, kubeadm, and kubectl packages  
+`dnf download --alldep --resolve cri-o kubelet kubeadm kubectl`
+
+### downloading the crictl tarball
+1. download the tar file  
+`curl -L -O https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.33.0/crictl-v1.33.0-linux-amd64.tar.gz`
