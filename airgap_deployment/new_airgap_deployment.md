@@ -128,7 +128,7 @@ mirrors:
 5. edit **/etc/systemd/system/k3s.service** to add the following after **server** under **ExecStart**:
 ```
     --disable servicelb \
-    --disable-cloud-provider \
+    --disable-cloud-controller \
     --flannel-backend none \
     --private-registry /etc/rancher/k3s/registries.yaml \
     --cluster-init \
