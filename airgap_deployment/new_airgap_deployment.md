@@ -36,44 +36,6 @@ chmod +x load-images.sh
 6. download the manifest file  
 `wget https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/deploy/longhorn.yaml`
 
-### downloading calico's files
-1. pull the calico operator image and push it to the local docker registry. note that the operator version doesn't match the calico version. the operator releases are [here](https://github.com/tigera/operator/releases)
-```
-#!/bin/bash
-
-#Adjust the variables below to your environment
-
-registry=<DOCKER-REGISTRY>
-repository=<REPOSITORY-NAME>
-version=v1.38.3
-
-#The images list contains all components operator must be able to deploy
-
-images=(
-typha:"${version}"
-cni:"${version}"
-pod2daemon-flexvol:"${version}"
-node:"${version}"
-kube-controllers:"${version}"
-)
-
-for image in "${images[@]}"
-do
-  :
-  docker pull calico/$image
-  docker tag calico/$image $registry/$repository/$image
-  docker push $registry/$repository/$image
-done
-
-docker pull quay.io/tigera/operator:v1.15.1
-docker tag quay.io/tigera/operator:v1.15.1 <DOCKER-REGISTRY>/REPOSITORY-NAME>/operator:v1.15.1
-docker push <DOCKER-REGISTRY>/REPOSITORY-NAME>/library/operator:v1.15.1
-```
-2. download the calico manifests
-```
-curl -L https://docs.projectcalico.org/manifests/tigera-operator.yaml -o tigera-operator.yaml
-curl -L https://docs.projectcalico.org/mfanifests/custom-resources.yaml -o custom-resources.yaml
-```
 
 ### downloading the files for canal
 ```
