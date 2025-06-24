@@ -224,4 +224,30 @@ mirrors:
 7. start the k3s service with `systemctl start k3s`
 
 ### Installing Canal
-1. 
+1. get the canal manifest
+2. because flannel and k3s use different default CIDR blocks (10.244.0.0/16 and 10.42.0.0/16 respectively), one of the configs needs to be changed. for this case, the canal.yaml config will be changed as shown:
+```
+  # Flannel network configuration. Mounted into the flannel container.
+  net-conf.json: |
+    {
+      "Network": "10.42.0.0/16",
+      "Backend": {
+        "Type": "vxlan"
+      }
+    }
+```
+3. apply the manifest
+`k3s kubectl apply -f canal.yaml`
+
+### Installing Longhorn
+1. install open-iscsi
+  1. on the workstation:
+  `dnf download --resolve --alldep iscsi-initiator-utils`
+  `createrepo <REPO_PATH>`
+  3. on the master node:
+  `dnf update --refresh`
+  `dnf install iscsi-initiator-utils -y`
+5. create the longhorn namespace
+`k3s kubectl create namespace longhorn-system`
+6. apply the manifest
+`k3s kubectl apply -f longhorn.yaml`
