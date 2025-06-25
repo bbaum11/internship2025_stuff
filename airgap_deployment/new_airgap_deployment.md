@@ -133,8 +133,9 @@ mirrors:
     --private-registry /etc/rancher/k3s/registries.yaml \
     --cluster-init \
 ```
-6. run `systemctl daemon-reload`
-7. start the k3s service with `systemctl start k3s`
+6. `sudo ip route add default via 192.168.47.1 dev enp0s3`
+7. run `systemctl daemon-reload`
+8. start the k3s service with `systemctl start k3s`
 
 ### Installing Canal
 1. get the canal manifest
@@ -167,5 +168,8 @@ mirrors:
 
 ### setting up k9s
 1. allow traffic on port 10250 to allow the metrics server to communicate with the host
-`sudo firewall-cmd --add-port=10250/tcp --permanent`
+`sudo firewall-cmd --add-port=10250/tcp --permanent`  
 `sudo firewall-cmd --reload`
+2. get the k9s tarball
+3. extract the executable from the tarball
+4. run with `k9s --kubeconfig /etc/rancher/k3s/k3s.yaml
