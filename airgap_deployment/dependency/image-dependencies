@@ -1,0 +1,33 @@
+# metallb
+quay.io/metallb/controller:v0.15.2
+quay.io/metallb/speaker:v0.15.2
+
+# argocd
+ghcr.io/dexidp/dex:v2.41.1
+quay.io/argoproj/argocd:v3.0.6
+
+# canal
+docker.io/calico/node:v3.30.2
+docker.io/calico/kube-controllers:v3.30.2
+docker.io/calico/cni:v3.30.2
+docker.io/flannel/flannel:v0.24.4
+
+
+# longhorn
+longhornio/backing-image-manager:v1.9.0
+longhornio/longhorn-engine:v1.9.0
+longhornio/longhorn-instance-manager:v1.9.0
+longhornio/longhorn-manager:v1.9.0
+longhornio/longhorn-share-manager:v1.9.0
+longhornio/longhorn-ui:v1.9.0
+longhornio/longhorn-cli:v1.9.0
+longhornio/csi-attacher:v4.8.1
+longhornio/csi-provisioner:v5.2.0
+longhornio/csi-resizer:v1.13.2
+longhornio/csi-snapshotter:v8.2.0
+longhornio/csi-node-driver-registrar:v2.13.0
+longhornio/livenessprobe:v2.15.0
+longhornio/support-bundle-kit:v0.0.55
+
+# docker registry
+docker.io/library/registry:2

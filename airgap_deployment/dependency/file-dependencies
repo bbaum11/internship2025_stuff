@@ -1,0 +1,12 @@
+https://github.com/derailed/k9s/releases/download/v0.50.6/k9s_Linux_amd64.tar.gz
+https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/deploy/longhorn-images.txt
+https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/scripts/save-images.sh
+https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/scripts/load-images.sh
+https://raw.githubusercontent.com/longhorn/longhorn/v1.9.0/deploy/longhorn.yaml
+https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/canal.yaml
+https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+https://github.com/k3s-io/k3s/releases/download/v1.33.1%2Bk3s1/k3s-airgap-images-amd64.tar.zst
+https://github.com/k3s-io/k3s/releases/download/v1.33.1%2Bk3s1/k3s
+https://github.com/k3s-io/k3s/releases/download/v1.33.1%2Bk3s1/k3s-images.txt
+https://get.k3s.io/
