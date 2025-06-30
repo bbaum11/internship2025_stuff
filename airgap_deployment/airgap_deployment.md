@@ -79,7 +79,19 @@ ip route add default via xxx.xxx.xxx.255 dev dummy0 metric 1000
 `k3s kubectl apply -f canal.yaml`
 
 ### Installing metallb
-1. get the metallb manifest
+1. get the metallb manifest and apply it with `k3s kubectl apply -f metallb-native.yaml`
+2. in order for metallb to assign IP addresses, it needs to be given a pool of external addresses to assign. once a pool has been determined, create an IP address pool in `pools.yaml` as shown:
+```
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - xxx.xxx.xxx.xxx-xxx.xxx.xxx.xxx
+```
+3. apply the pool with `k3s kubectl apply -f pools.yaml`
 
 ### Deploying an nginx service
 1. get the 
