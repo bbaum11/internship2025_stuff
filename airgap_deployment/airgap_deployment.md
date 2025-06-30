@@ -94,7 +94,9 @@ spec:
 3. apply the pool with `k3s kubectl apply -f pools.yaml`
 
 ### Deploying an nginx service
-1. get the 
+1. move the desired nginx image onto the private regitry
+2. create a manifest `nginx.yaml` to deploy the service ([this one was used](https://gist.github.com/sdenel/1bd2c8b5975393ababbcff9b57784e82#file-nginx-hello-world-deployment-yaml-L1))
+3. apply the manifest with `k3s kubectl apply nginx.yaml`
 
 ### setting up ingress
 1. k3s is recommended to be used without firewalld, which doesn't play nicely with the many network interfaces created. however, if firewalld is still desired, it can be configured to work with k3s as shown below:
@@ -140,6 +142,7 @@ spec:
 
 
 ### Installing Longhorn
+*note: this needs to be updated for the current deployent*
 1. install open-iscsi  
 `dnf install iscsi-initiator-utils -y`
 5. create the longhorn namespace  
