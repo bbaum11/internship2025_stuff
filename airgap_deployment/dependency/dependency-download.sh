@@ -9,7 +9,7 @@
 # argocd: https://github.com/argoproj/argo-cd/blob/master/manifests/install.yaml 
 
 # to extract the tarball:
-# tar -xzvf airgap-bundle.tar.gz
+# tar -xzvf dependencies.tar.gz
 
 
 set -e
@@ -25,19 +25,20 @@ while read -r file; do
     fi
 done < ../file-dependencies
 
-cd .. && mkdir -p images && cd images
+cd ..
 
+images=()
 while read -r image; do
     [[ -z "$image" || "$image" =~ ^# ]] && continue
     echo "pulling $image"
     podman pull "$image"
-    last_part="${image##*/}"
-    base_name="${last_part%%:*}"
-    podman save "$image" | gzip > ${base_name}.tar.gz
+    images+=("$image")
 done < ../image-dependencies
 
-cd ..
+if [ "${#images[@]}" -gt 0 ]; then
+    podman save "${images[@]}" | gzip > all-images.tar.gz
+fi
 
-tar -czvf dependencies.tar.gz files images
+tar -czvf dependencies.tar.gz files all-images.tar.gz
 
-rm -r files images
+rm -r files all-images.tar.gz
