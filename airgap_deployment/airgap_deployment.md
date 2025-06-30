@@ -59,8 +59,8 @@ ip route add default via xxx.xxx.xxx.255 dev dummy0 metric 1000
 9. start the k3s service with `systemctl start k3s`
 
 ### important notes
-- none of the pods will be installed and started until the CNI is installed
-- in order to use the built-in tools that come with k3s (kubectl, ctr, crictl, etc), they need to be preceded with `k3s` (ex. `k3s kubectl <args>`)
+- none of the pods will be installed/started until the CNI is installed
+- in order to use the built-in tools that come with k3s (kubectl, ctr, crictl, etc), they need to be preceded by `k3s` (ex. `k3s kubectl <args>`)
 
 ### Installing Canal
 1. get the canal manifest
