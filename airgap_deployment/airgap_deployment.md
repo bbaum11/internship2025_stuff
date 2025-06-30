@@ -17,9 +17,11 @@ by default, podman attempts to use https for traffic with a docker registry. to 
 1. download the k3s binary and installation script
 `curl -L -O http://<SERVER_IP>/path/to/file`
 2. change the binary ownership to root, move it to /usr/local/bin, and change the SELinux permissions
-`sudo chown root:root k3s`
-`sudo mv k3s /usr/local/bin/.`
-`sudo restorecon -v /usr/local/bin/k3s`
+```
+sudo chown root:root k3s`
+sudo mv k3s /usr/local/bin/.
+sudo restorecon -v /usr/local/bin/k3s
+```
 3. create the file `/etc/rancher/k3s/repositories.yaml`. this allows the private docker registry to act as a mirror for docker.io, quay.io, and ghcr.io
 ```
 mirrors:
