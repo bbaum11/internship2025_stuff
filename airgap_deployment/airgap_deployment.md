@@ -13,7 +13,7 @@ by default, podman attempts to use https for traffic with a docker registry. to 
 
 
 ## Installing k3s
-**note that none of the pods will be able to be installed and started until a CNI is installed**
+*note that none of the pods will be able to be installed and started until a CNI is installed*
 1. download the k3s binary and installation script
 `curl -L -O http://<SERVER_IP>/path/to/file`
 2. change the binary ownership to root, move it to /usr/local/bin, and change the SELinux permissions
