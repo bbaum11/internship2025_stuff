@@ -13,6 +13,7 @@ by default, podman attempts to use https for traffic with a docker registry. to 
 
 
 ## Installing k3s
+**note that none of the pods will be able to be installed and started until a CNI is installed**
 1. download the k3s binary and installation script
 `curl -L -O http://<SERVER_IP>/path/to/file`
 2. change the binary ownership to root, move it to /usr/local/bin, and change the SELinux permissions
@@ -54,6 +55,7 @@ ip route add default via xxx.xxx.xxx.255 dev dummy0 metric 1000
 ### Installing Canal
 1. get the canal manifest
 2. because flannel and k3s use different default CIDR blocks (10.244.0.0/16 and 10.42.0.0/16 respectively), one of the configs needs to be changed. for this case, the canal.yaml config will be changed as shown:
+3. by default, k3s uses 10.42.0.0/16 as a CIDR block for cluster IP addresses, while flannel uses 10.244.0.0/16. In order 
 ```
   # Flannel network configuration. Mounted into the flannel container.
   net-conf.json: |
