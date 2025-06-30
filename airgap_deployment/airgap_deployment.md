@@ -2,7 +2,7 @@
 - note that all container images need to be pushed to the private docker registry, while all other files must be placed into the httpd repository, preferably in a separate folder from the rpms.  
 - `sudo dmesg -n 1`
 
-### setting up pushing to/pulling from docker registry 
+### setting up pushing to/pulling from private docker registry 
 by default, podman attempts to use https for traffic with a docker registry. to fix this, add the following in `/etc/containers/registries.conf`
 ```
 [[registry]]
@@ -11,59 +11,44 @@ by default, podman attempts to use https for traffic with a docker registry. to 
 ```
 
 
-
-
-
-
-
 ## Installing k3s
-
-### troubleshooting k3s
-- private registry not working
-  - edit /etc/systemd/system/k3s.service
-    - add `--private-registry=/etc/rancher/k3s/registries.yaml ` under execstart
-  - edit /etc/rancher/k3s/repositories.yaml
-    - add this
-```
-mirrors:
-  docker.io:
-    endpoint:
-      - "http://<WORKSTATION_IP>:5000"
-  quay.io:
-    endpoint:
-      - "http://<WORKSTATION_IP>:5000"
-  ghcr.io:
-    endpoint:
-      - "http://<WORKSTATION_IP>:5000"
-```
-
-### installing on the master
 1. download the k3s binary and installation script
-`curl -L -O http://<WORKSTATION_IP>/path/to/file`
+`curl -L -O http://<SERVER_IP>/path/to/file`
 2. change the binary ownership to root, move it to /usr/local/bin, and change the SELinux permissions
 `sudo chown root:root k3s`
 `sudo mv k3s /usr/local/bin/.`
 `sudo restorecon -v /usr/local/bin/k3s`
-3. create the file /etc/rancher/k3s/repositories.yaml
+3. create the file `/etc/rancher/k3s/repositories.yaml`. this allows the private docker registry to act as a mirror for docker.io, quay.io, and ghcr.io
 ```
 mirrors:
   docker.io:
     endpoint:
-      - "http://<WORKSTATION_IP>:5000"
+      - "http://<REGISTRY_IP>:5000"
+  quay.io:
+    endpoint:
+      - "http://<REGISTRY_IP>:5000"
+  ghcr.io:
+    endpoint:
+      - "http://<REGISTRY_IP>:5000"
 ```
 4. run the installation script
 `INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true ./install.sh`
 5. edit **/etc/systemd/system/k3s.service** to add the following after **server** under **ExecStart**:
 ```
     --disable servicelb \
-    --disable-cloud-controller \
     --flannel-backend none \
     --private-registry /etc/rancher/k3s/registries.yaml \
     --cluster-init \
 ```
-6. `sudo ip route add default via 192.168.47.1 dev enp0s3`
-7. run `systemctl daemon-reload`
-8. start the k3s service with `systemctl start k3s`
+6. in order for the k3s server to start, a default route needs to be configured. if there isn't one for the system running it, a dummy route can be configured for testing purposes with:
+```
+ip link add dummy0 type dummy
+ip link set dummy0 up
+ip addr add xxx.xxx.xxx.254/31 dev dummy0
+ip route add default via xxx.xxx.xxx.255 dev dummy0 metric 1000
+```
+8. run `systemctl daemon-reload`
+9. start the k3s service with `systemctl start k3s`
 
 ### Installing Canal
 1. get the canal manifest
