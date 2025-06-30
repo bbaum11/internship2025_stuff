@@ -1,9 +1,13 @@
-## Downloading all files to the workstation
-- to get the files onto the airgap, it is recommended to put them into an archive file and then load them into a docker registry and a file serving registry to access them from the airgap systems.
-- [here is a script to download the necessary files and images into an archive file](dependency/dependency-download.sh)
-- [here is a script to extract the archived files/images and load them into the local cache]()
-- [here is a script to retag all the files and load them into the private docker registry on the airgap](dependency/retag-and-push.sh)
 - `sudo dmesg -n 1`
+
+## Getting Dependencies
+- downloading the files outside the airgap
+  - to get the files onto the airgap, it is recommended to put them into an archive file and then load them into a docker registry and a file serving registry to access them from the airgap systems.
+  - [here is a script to download the necessary files and images into an archive file](dependency/dependency-download.sh)
+- getting the files within the airgap
+  - the archive can be extracted wth `tar -xzvf dependencies.tar.gz`
+  - the images can be loaded with `podman load -i all-images.tar.gz` and `podman load -i files/k3s-airgap-images-amd64.tar.zst`
+  - [here is a script to retag all the files and load them into the private docker registry on the airgap (it is inside the tarball)](dependency/retag-and-push.sh)
 
 ### setting up pushing to/pulling from private docker registry 
 by default, podman attempts to use https for traffic with a docker registry. to fix this, add the following in `/etc/containers/registries.conf`
