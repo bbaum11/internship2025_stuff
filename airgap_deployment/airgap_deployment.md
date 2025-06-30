@@ -1,7 +1,8 @@
 ## Downloading all files to the workstation
 - note that all container images need to be pushed to the private docker registry, while all other files must be placed into the httpd repository, preferably in a separate folder from the rpms.
 - [here is a script to download the necessary files and images](dependency/dependency-download.sh)
-- [here is a script to retag all the files and load them into the private docker registry]()
+- [here is a script to extract the archived files/images and load them into the local cache]()
+- [here is a script to retag all the files and load them into the private docker registry on the airgap](dependency/retag-and-push.sh)
 - `sudo dmesg -n 1`
 
 ### setting up pushing to/pulling from private docker registry 
