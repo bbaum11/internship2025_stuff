@@ -1,8 +1,8 @@
 # setting up gitlab runners using the k8s executors (minikube with an internet connection was used for testing purposes
-images needed:  
+#### images needed:  
 - registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.1.1
 - registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1  
-chart needed:
+#### chart needed:
 - `helm pull gitlab-runner --repo https://charts.gitlab.io/`
 
 ### in gitlab project
