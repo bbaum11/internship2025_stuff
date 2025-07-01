@@ -21,3 +21,4 @@ certsSecretName: mycerts
 4. deploy runner helm chart
 5. create cert secret. *note: the name of the file containing the cert must match the server URL exactly.*:  
 `kubectl create secret generic mycerts --from-file=./<gitlab_url>.crt`
+6. if using custom certs, they need to be added to the kubernetes nodes. specifically with minikube, do `minikube ssh` and add the cert to `/usr/local/share/ca-certificates/` and run `sudo update-ca-certificates`
