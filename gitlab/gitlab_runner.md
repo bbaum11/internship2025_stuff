@@ -5,6 +5,15 @@
 #### chart needed:
 - `helm pull gitlab-runner --repo https://charts.gitlab.io/`
 
+### getting tls
+- if you are working with custom tls certificates, you will need to configure tls on the gitlab runner image. The easiest way to do this is do download your certificate and create a Dockerfile that copies it over and updates the trusted certifiacates, as shown with this Dockerfile:
+```
+FROM registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1
+ARG src="<certificate>.crt"
+ARG target="/usr/local/share/ca-certificates/<certificate>.crt"
+```
+- then run `podman build -t my-gitlab-runner:alpine-v18.1.1 .`
+
 ### in gitlab project
 1. `Settings -> CI/CD -> Runners -> Create project runner`
 2. Add tags and lock to current projects
