@@ -17,6 +17,36 @@
 gitlabUrl: https://<gitlab_url>/
 runnerToken: <auth_token>
 certsSecretName: mycerts
+rbac:
+  create: false
+  generatedServiceAccountName: ""
+  rules:
+     - resources: ["events"]
+       verbs: ["list", "watch"]
+     - resources: ["namespaces"]
+       verbs: ["create", "delete"]
+     - resources: ["pods"]
+       verbs: ["create","delete","get"]
+     - apiGroups: [""]
+       resources: ["pods/attach","pods/exec"]
+       verbs: ["get","create","patch","delete"]
+     - apiGroups: [""]
+       resources: ["pods/log"]
+       verbs: ["get","list"]
+     - resources: ["secrets"]
+       verbs: ["create","delete","get","update"]
+     - resources: ["serviceaccounts"]
+       verbs: ["get"]
+     - resources: ["services"]
+       verbs: ["create","get"]
+  clusterWideAccess: false
+  serviceAccountAnnotations: {}
+  podSecurityPolicy:
+    enabled: false
+    resourceNames:
+      - gitlab-runner
+  imagePullSecrets: []
+
 ```
 4. deploy runner helm chart
 5. create cert secret. *note: the name of the file containing the cert must match the server URL exactly.*:  
