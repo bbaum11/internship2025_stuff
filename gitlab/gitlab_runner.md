@@ -11,6 +11,8 @@
 FROM registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1
 ARG src="<certificate>.crt"
 ARG target="/usr/local/share/ca-certificates/<certificate>.crt"
+COPY ${src} ${target}
+RUN update-ca-certificates
 ```
 - then run `podman build -t my-gitlab-runner:alpine-v18.1.1 .`
 
