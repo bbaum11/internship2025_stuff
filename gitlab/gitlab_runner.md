@@ -27,7 +27,6 @@ RUN update-ca-certificates
 ```
 gitlabUrl: https://<gitlab_url>/
 runnerToken: <auth_token>
-certsSecretName: mycerts
 rbac:
   create: true
   rules:
