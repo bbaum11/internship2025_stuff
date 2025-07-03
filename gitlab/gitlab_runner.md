@@ -1,4 +1,4 @@
-# setting up gitlab runners in the airgapped environment
+# deploying gitlab runners in the airgapped environment
 ## on the non-airgapped device
 1. download the gitlab runner main and helper images
 ```
