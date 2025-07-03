@@ -1,4 +1,18 @@
-# setting up gitlab runners using the k8s executors (minikube with an internet connection was used for testing purposes
+# setting up gitlab runners in the airgapped environment
+## on the non-airgapped device
+1. download the gitlab runner main and helper images
+```
+podman pull registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1
+podman pull registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.1.1
+podman save -m registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1 registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.1.1 | gzip > gitlab-images.tar.gz
+```
+2. download the tarballs for helm itself and the gitlab runner helm chart
+```
+curl -LO https://get.helm.sh/helm-v3.18.3-linux-amd64.tar.gz
+curl -LO https://gitlab.com/gitlab-org/charts/gitlab-runner/-/archive/0-78-stable/gitlab-runner-0-78-stable.tar.gz
+```
+3. move the files onto the airgapped machine hosting the kubernetes cluster
+
 #### images needed:  
 - registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.1.1
 - registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1  
@@ -21,10 +35,19 @@ RUN update-ca-certificates
 2. Add tags and lock to current projects
 3. Get runner authentication token
 
-### on cluster
-1. `openssl s_client -showcerts -connect gitlab.com:443 </dev/null 2>/dev/null|openssl x509 -outform PEM > ~/<gitlab_url>.crt`
-2. edit the following fields of `values.yaml` for the helm chart:
+## on the airgapped system:
+#### install helm
+1. unzip the helm archive file
+`tar -xzvf gitlab-runner-0-78-stable.tar.gz`
+2. move the executable to `/usr/bin`
+`mv ./linux-amd64/helm /usr/bin/helm`
+
+#### deploy the helm chart
+1. edit the following fields of `values.yaml` for the helm chart:
 ```
+image:
+  registry: registry.gitlab.com
+  image: gitlab-org/my-gitlab-runner
 gitlabUrl: https://<gitlab_url>/
 runnerToken: <auth_token>
 rbac:
@@ -48,8 +71,20 @@ rbac:
        verbs: ["get"]
      - resources: ["services"]
        verbs: ["create","get"]
+serviceAccount:
+  create: true
 ```
+2. configure the gitlab container registry mirror in `/etc/rancher/k3s/registries.yaml`:
+```
+mirrors:
+  ...
+    ...
+      -  ...
+  registry.gitlab.com:
+    endpoint:
+      - "http://<private_registry_ip>:5000"
+```
+3. set the kubeconfig global variable
+`export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`
 4. deploy runner helm chart
-5. create cert secret. *note: the name of the file containing the cert must match the server URL exactly.*:  
-`kubectl create secret generic mycerts --from-file=./<gitlab_url>.crt`
-6. if using custom certs, they need to be added to the kubernetes nodes. specifically with minikube, do `minikube ssh` and add the cert to `/usr/local/share/ca-certificates/` and run `sudo update-ca-certificates`
+`helm install gitlab runner . -f values.yaml`
