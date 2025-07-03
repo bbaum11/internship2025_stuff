@@ -84,3 +84,10 @@ mirrors:
 `helm install gitlab runner . -f values.yaml`
 
 #### test the pipeline
+1. in the gitlab repository, add the CI/CD configuration file `.gitlab-ci.yml`  
+```
+test-runner:
+  script:
+    - echo "testing the runner as $(whoami)"
+```
+2. after committing the chagnes, the pipeline should run. after selecting the job, the output should show as the run being successful with the command output shown.
