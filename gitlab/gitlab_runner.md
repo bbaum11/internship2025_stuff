@@ -82,3 +82,5 @@ mirrors:
 `export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`
 4. deploy runner helm chart
 `helm install gitlab runner . -f values.yaml`
+
+#### test the pipeline
