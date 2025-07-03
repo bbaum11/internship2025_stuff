@@ -33,7 +33,7 @@ RUN update-ca-certificates
 #### install helm
 1. unzip the helm archive file
 `tar -xzvf gitlab-runner-0-78-stable.tar.gz`
-2. move the executable to `/usr/bin`
+2. move the executable to `/usr/bin`  
 `mv ./linux-amd64/helm /usr/bin/helm`
 
 #### deploy the helm chart
