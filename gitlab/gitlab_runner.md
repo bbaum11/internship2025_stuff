@@ -13,12 +13,7 @@ curl -LO https://gitlab.com/gitlab-org/charts/gitlab-runner/-/archive/0-78-stabl
 ```
 3. move the files onto the airgapped machine hosting the kubernetes cluster
 
-#### images needed:  
-- registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.1.1
-- registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1  
-#### chart needed:
-- `helm pull gitlab-runner --repo https://charts.gitlab.io/`
-
+## on the airgapped network
 ### getting tls
 - if you are working with custom tls certificates, you will need to configure tls on the gitlab runner image. The easiest way to do this is do download your certificate and create a Dockerfile that copies it over and updates the trusted certifiacates, as shown with this Dockerfile:
 ```
@@ -33,9 +28,8 @@ RUN update-ca-certificates
 ### in gitlab project
 1. `Settings -> CI/CD -> Runners -> Create project runner`
 2. Add tags and lock to current projects
-3. Get runner authentication token
+3. Copy the runner authentication token
 
-## on the airgapped system:
 #### install helm
 1. unzip the helm archive file
 `tar -xzvf gitlab-runner-0-78-stable.tar.gz`
@@ -43,7 +37,7 @@ RUN update-ca-certificates
 `mv ./linux-amd64/helm /usr/bin/helm`
 
 #### deploy the helm chart
-1. edit the following fields of `values.yaml` for the helm chart:
+1. edit the following fields of `values.yaml` for the helm chart, using the runner authentication token from the UI:
 ```
 image:
   registry: registry.gitlab.com
