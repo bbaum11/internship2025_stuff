@@ -22,4 +22,10 @@ for this deployment [this tutorial](https://www.geeksforgeeks.org/python/making-
 - the requirements for flask and the postgresql library were installed into the container image
 
 ### [postgres manifest](manifests/postgres.yaml) and [flask manifest](manifests/flask.yaml)
-- 
+- for the postgres app, it was created with a persistent volume mounted in the server's data directory and with environment variables to set the login credentials
+- for the flask app, it was created with the environment variables set for the login credentials and the SCRIPT_NAME field for the ProxyFix library
+
+### [ingress routing](manifests/ingressRoutes.yaml)
+- instead of the standard kubernetes ingress resources, Traefik's IngressRoute CRD's were used instead because they allow for easier customization
+- the flask server was configured to have the route of `http://<traefik_ip>/flask`
+- a middleware was also configured to strip the `/flask` prefix from all incoming requests so that the flask server can properly handle them
