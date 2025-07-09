@@ -19,7 +19,7 @@ for this deployment [this tutorial](https://www.geeksforgeeks.org/python/making-
 ### [Dockerfile](flask_app/Dockerfile)
 - a python image was used as the base image
 - a certificate was added to the container to get tls functioality
-- the requirements for flask and the postgresql library were installed into the container image
+- the [requirements](flask_app/requirements.txt) for flask and the postgresql library were installed into the container image
 
 ### [postgres manifest](manifests/postgres.yaml) and [flask manifest](manifests/flask.yaml)
 - for the postgres app, it was created with a persistent volume mounted in the server's data directory and with environment variables to set the login credentials
