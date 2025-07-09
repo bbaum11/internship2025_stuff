@@ -37,7 +37,7 @@ RUN update-ca-certificates
 `mv ./linux-amd64/helm /usr/bin/helm`
 
 #### deploy the helm chart
-1. edit the following fields of `values.yaml` for the helm chart, using the runner authentication token from the gitlab UI:
+1. edit the following fields of `values.yaml` for the helm chart, using the runner authentication token from the gitlab web page:
 ```
 image:
   registry: registry.gitlab.com
