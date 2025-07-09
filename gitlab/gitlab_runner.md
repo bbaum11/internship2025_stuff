@@ -15,7 +15,7 @@ curl -LO https://gitlab.com/gitlab-org/charts/gitlab-runner/-/archive/0-78-stabl
 
 ## on the airgapped network
 ### getting tls
-- if you are working with custom tls certificates, you will need to configure tls on the gitlab runner image. The easiest way to do this is do download your certificate and create a Dockerfile that copies it over and updates the trusted certifiacates, as shown with this Dockerfile:
+- if you are working with custom tls certificates, you will need to get them onto the gitlab runner image. The easiest way to do this is do download your certificate and create a Dockerfile that copies it over and updates the trusted certifiacates, as shown with this Dockerfile:
 ```
 FROM registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1
 ARG src="<certificate>.crt"
