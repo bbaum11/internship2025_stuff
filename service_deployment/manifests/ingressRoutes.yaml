@@ -1,0 +1,24 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: flask-ingressroute
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/flask`)
+      kind: Rule
+      services:
+        - name: flask-service
+          port: 80
+        middlewares:
+          - name: flask-strip
+---
+  apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    name: flask-strip
+  spec:
+    stripPrefix:
+      prefixes:
+        - /flask
