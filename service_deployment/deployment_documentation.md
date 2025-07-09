@@ -21,4 +21,5 @@ for this deployment [this tutorial](https://www.geeksforgeeks.org/python/making-
 - a certificate was added to the container to get tls functioality
 - the requirements for flask and the postgresql library were installed into the container image
 
-### 
+### [postgres manifest](manifests/postgres.yaml) and [flask manifest](manifests/flask.yaml)
+- 
