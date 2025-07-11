@@ -26,7 +26,7 @@ sudo chown root:root k3s
 sudo mv k3s /usr/local/bin/.
 sudo restorecon -v /usr/local/bin/k3s
 ```
-3. create the file `/etc/rancher/k3s/repositories.yaml`. this allows the private docker registry to act as a mirror for docker.io, quay.io, and ghcr.io
+3. create the file `/etc/rancher/k3s/registries.yaml`. this allows the private docker registry to act as a mirror for docker.io, quay.io, and ghcr.io
 ```
 mirrors:
   docker.io:
