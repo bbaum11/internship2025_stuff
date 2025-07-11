@@ -71,7 +71,7 @@ the following file permissions are needed to proivde CIS compliance:
   - `token`
     - 0600 permissions
 ### deployed component configurations
-to keep the deployed configurations secure, the following are nessecary  
+to keep the deployed configurations secure, the following practices are nessecary  
 - keep stuff in separate namespaces
 - don't store secrets as environment variables and properly store them (like with a vault)
 - ensure PPSM CAL compliance
