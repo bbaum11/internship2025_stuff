@@ -38,6 +38,3 @@ kubelet-arg:
 - restrict permissions on the k3s tls certificates:
 `chmod -R 600 /var/lib/rancher/k3s/server/tls/*.crt`
 
-## [MITRE k3s automated compliance](https://github.com/mitre/k3s-cluster-stig-baseline)
-- mitre also provides a 
-- 
