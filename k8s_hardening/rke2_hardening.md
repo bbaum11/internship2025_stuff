@@ -76,3 +76,9 @@ to keep the deployed configurations secure, the following practices are nessecar
 - don't store secrets as environment variables and properly store them (like with a vault)
 - ensure PPSM CAL compliance
 - remove old components after updated versions have been enstalled (pods using older images)
+
+# hardening rocky9
+### packages needed
+- oscap-scanner
+- scap-security-guide
+- rocky-release-security
