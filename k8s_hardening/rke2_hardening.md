@@ -82,3 +82,7 @@ to keep the deployed configurations secure, the following practices are nessecar
 - oscap-scanner
 - scap-security-guide
 - rocky-release-security
+- openscap-utils
+### packages to not remove
+- dnsmasq
+- 
