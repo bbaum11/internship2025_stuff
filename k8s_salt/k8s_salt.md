@@ -16,14 +16,14 @@ curl -sfL https://get.rke2.io --output install.sh
 ```
 - these images are needed for the metallb install:
   - `podman pull registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1`
-  - `podman save registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1 | gzip > gitlab-runner.tar.gz'
+  - `podman save registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1 | gzip > gitlab-runner.tar.gz`
   - `registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.1.1`
-  - `podman save registry.gitlab.com/gitlab-org/gitlab-runner-helper:x86_64-v18.1.1 | gzip > gitlab-runner-helper.tar.gz'
+  - `podman save registry.gitlab.com/gitlab-org/gitlab-runner-helper:x86_64-v18.1.1 | gzip > gitlab-runner-helper.tar.gz`
 - these images are needed for the gitlab runner install:
   - `podman pull quay.io/metallb/speaker:v0.15.2`
-  - `podman save quay.io/metallb/speaker:v0.15.2 | gzip > speaker.tar.gz'
+  - `podman save quay.io/metallb/speaker:v0.15.2 | gzip > speaker.tar.gz`
   - `podman pull quay.io/metallb/controller:v0.15.2`
-  - `podman save quay.io/metallb/controller:v0.15.2 | gzip > controller.tar.gz'
+  - `podman save quay.io/metallb/controller:v0.15.2 | gzip > controller.tar.gz`
 
 ### adding needed images to a private registry
 if a registry needs to be created for specific images, the following process is done:
