@@ -52,7 +52,7 @@ if [ "$insecure" ]; then # adding the insecure registry to the container registr
 import re
 with open('/etc/containers/registries.conf', 'r+') as f:
     contents = f.read()
-    if not re.search(r'\[\[registry\]\]\s*location\s*=s\*"${registry_address}"\s*insecure\s*true', contents):
+    if f'location = "${registry}"' not in contents:
         f.write('\n\n[[registry]]\n  location = "${registry_address}"\n  insecure = true')
 EOF
 fi
@@ -61,7 +61,7 @@ while IFS= read -r image; do
     if [[ $(echo "${image}" | grep "registry") ]]; then
         continue
     fi
-    suffix=$(echo $image | sed 's|[^/]*/\(.*\)|\1|')
+    suffix=$(echo "$image" | sed 's|[^/]*/\(.*\)|\1|')
     new_path="${registry_address}/${suffix}"
 
     echo "tagging: $image -> $new_path"
@@ -70,8 +70,8 @@ while IFS= read -r image; do
     echo "pushing: $new_path"
     podman push "${new_path}" || (echo "failed pushing $new_path"; exit 1)
     echo "pushed $new_path"
-    podman rmi "${new_path}"
-    podman rmi "${image}"
+    podman rmi "${new_path}" --ignore
+    podman rmi "${image}" --ignore
 done < <(podman images --format '{{.Repository}}:{{.Tag}}')
 
 echo "done!"

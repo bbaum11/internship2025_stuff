@@ -2,7 +2,6 @@
 disable:
   - rke2-ingress-nginx
 ingress-controller: traefik
-disable-cloud-controller: true
 
 # i guess this just does everything for you???
 profile: "cis"

@@ -119,7 +119,7 @@ spec:
         # metricRelabelings: []
         ## relabelings: []
     service:
-      enabled: false
+      enabled: true
       # labels: {}
       # annotations: {}
       # clusterIP: ""
