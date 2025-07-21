@@ -4,6 +4,7 @@ i was initially going to do this by loading every image into a docker registry a
 
 
 ## Manual process of installing rke2 that the salt state is automating
+the salt state is located [here](salt)
 ### downloading the rke2 archive files on the non airgapped side
 ```
 curl -OLs https://github.com/rancher/rke2/releases/download/v1.33.1%2Brke2r1/rke2-images.linux-amd64.tar.zst
