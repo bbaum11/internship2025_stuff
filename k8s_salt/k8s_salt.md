@@ -25,7 +25,7 @@ curl -sfL https://get.rke2.io --output install.sh
   - `podman pull quay.io/metallb/controller:v0.15.2`
   - `podman save quay.io/metallb/controller:v0.15.2 | gzip > controller.tar.gz`
 
-### adding needed images to a private registry
+### [adding needed images to a private registry](salt/registry/create_registry.sls)
 if a registry needs to be created for specific images, the following process is done:
 - a new container is deployed on port 5000 with the registry:2 image using a persistent volume
   - `podman volume create registry-data`
@@ -59,10 +59,10 @@ sudo systemctl restart systemd-sysctl
 sudo useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U # creating an etcd user
 ```
 - the [config file](salt/files/server/configs/config.yaml) then needs to be placed in `/etc/rancher/rke/config.yaml`.
-- we then add the necessary manifests to `/etc/rancher/rke2/server/manifests/.`. these will automatically be deployed when rke2 starts:
+- we then add the necessary manifests to `/etc/rancher/rke2/server/manifests/.` ([done here](salt/installation/services.sls)). these will automatically be deployed when rke2 starts:
   - the gitlab runners are deployed using rke2's [helm chart](salt/files/server/manifests/gitlab-runner-chart-crd.yaml) crd
     - the `valuesContent` field is used in place of `values.yaml`
-    - we also need to add the helm chart archive file to the rke2 server for it to pull from instead of the helm repository
+    - the helm chart contents are used in the CRD as a base64 encoded string to use in place of the gitlab runner helm repository
     - we need to configure the values.yaml chart to use the custom image
     - the gitlab server and runner authentication token are also added to its values
   - the [metallb manifest](salt/files/server/manifests/metallb-native.yaml) is added to this directory as well as an [ip address pool](salt/files/server/manifests/pools.yaml), which we set the values for
@@ -73,7 +73,7 @@ sudo useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U # creating an etcd us
 
 ### hardening the deployed cluster
 - we then harden the cluster. first, [file permissions need to be adjusted](salt/hardening/permissions.sls) according to the [rke2 disa stig](https://stigviewer.com/stigs/rancher_government_solutions_rke2) (the rest of the remediations were done with the config file)  
-- then, we harden the underlying os. to do this, we use openscap. a tailor file is created using the rhel 9 profile, ignoring the rules for httpd, dnsmasq, password expiration, account age, and firewalld.
+- then, [we harden the underlying os](salt/hardening/oscap.sls). to do this, we use openscap. a tailor file is created using the rhel 9 profile, ignoring the rules for httpd, dnsmasq, password expiration, account age, and firewalld.
   - ```autotailor \
           -u xccdf_org.ssgproject.content_rule_package_httpd_removed \
           -u xccdf_org.ssgproject.content_rule_package_dnsmasq_removed \
@@ -101,7 +101,7 @@ sudo useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U # creating an etcd us
   - `oscap xccdf generate fix --output /tmp/draft-remediation.sh --profile tailored-for-k8s --tailoring-file /tmp/tailor-file.xml /usr/share/xml/scap/ssg/content/ssg-rl9-ds.xml`
   - `chmod +x /tmp/draft-remediation.sh && /tmp/draft-remediation.sh`
 
-### to update:
+### to update rke2:
 1. download new tar files and replace the ones in `/var/lib/rancher/rke2/agent/images/`
 2. replace the executable file `/usr/local/bin/rke2`
 3. restart the service
