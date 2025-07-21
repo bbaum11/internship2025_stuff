@@ -3,7 +3,7 @@ disable:
   - rke2-ingress-nginx
 ingress-controller: traefik
 
-# this adds all the necessary hardening configurations, the ones below are just to be sure they are applied
+# i guess this just does everything for you???
 profile: "cis"
 
 # anonymous auth may need to sometimes be enabled for things lke health checks
