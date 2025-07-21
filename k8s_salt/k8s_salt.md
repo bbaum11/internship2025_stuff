@@ -3,12 +3,7 @@ i was initially going to do this by loading every image into a docker registry a
 
 ## prereqs
 1. run these commands:
-```
-sudo cp -f /usr/share/rke2/rke2-cis-sysctl.conf /etc/sysctl.d/60-rke2-cis.conf
-sudo systemctl restart systemd-sysctl
-sudo sysctl -p /usr/local/share/rke2/rke2-cis-sysctl.conf
-sudo useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
-```
+
 
 ## installation
 ```
@@ -18,6 +13,13 @@ curl -OLs https://github.com/rancher/rke2/releases/download/v1.33.1%2Brke2r1/rke
 curl -OLs https://github.com/rancher/rke2/releases/download/v1.33.1%2Brke2r1/sha256sum-amd64.txt
 curl -sfL https://get.rke2.io --output install.sh
 INSTALL_RKE2_ARTIFACT_PATH=/root/rke2-artifacts sh install.sh
+```
+
+```
+sudo cp -f /usr/share/rke2/rke2-cis-sysctl.conf /etc/sysctl.d/60-rke2-cis.conf
+sudo systemctl restart systemd-sysctl
+sudo sysctl -p /usr/local/share/rke2/rke2-cis-sysctl.conf
+sudo useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
 ```
 ## to update:
 1. download new tar files and replace the ones in `/var/lib/rancher/rke2/agent/images/`
