@@ -1,9 +1,6 @@
 # Creating a salt state to automate the deployment of the hardened kubernetes cluster
 i was initially going to do this by loading every image into a docker registry and then using those images to install everything. however, it is **significantly** easier to just download the tarballs and install like that. this way, the only images needed are just the ones for my services and the only files needed are the tarballs. the upgrade process is also very straightforward and simple.
 
-## prereqs
-1. run these commands:
-
 
 ## installation
 ```
