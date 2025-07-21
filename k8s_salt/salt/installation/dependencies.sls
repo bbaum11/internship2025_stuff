@@ -1,17 +1,13 @@
-{% set packages = [
-    'openscap-scanner',
-    'scap-security-guide',
-    'rocky-release-security',
-    'openscap-utils',
-    'podman',
-    'epel-release'
-] %}
-
-{% for package in packages %}
-{{ package }}:
+packages:
     pkg.installed:
         - pkg_verify: True
-{% endfor %}
+        - pkgs:
+            - epel-release
+            - openscap-scanner
+            - scap-security-guide
+            - rocky-release-security
+            - openscap-utils
+            - podman
 
 /srv/scripts:
     file.directory:
