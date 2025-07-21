@@ -46,7 +46,7 @@ if a registry needs to be created for specific images, the following process is 
             COPY ${src} ${target}
             RUN update-ca-certificates
       ```
-    - with this command: podman build -t my-gitlab-runner:v1 -f <dockerfile>
+    - with this command: `podman build -t my-gitlab-runner:v1 -f <dockerfile>`
 - then, the metallb files, the gitlab runner helper, and the custom gitlab runner images are retagged and pushed to the logal registry, after which they are removed from the local cache using this [script](salt/files/server/scripts/retag-and-push.sh)
   - the in the metallb manifest, the images are changed to use the local registry instead of quay.io
     - `sed -i 's|quay.io|localhost:5000|' /var/lib/rancher/rke2/server/manifests/pools.yaml`
