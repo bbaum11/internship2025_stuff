@@ -3,6 +3,12 @@
         - source: salt://files/server/manifests/metallb-native.yaml
         - makedirs: True
 
+replace_old_tags_with_local_registry:
+    cmd.run:
+        - name: "sed -i 's|quay.io|localhost:5000|' /var/lib/rancher/rke2/server/manifests/metallb-native.yaml"
+        - require:
+            - file: /var/lib/rancher/rke2/server/manifests/metallb-native.yaml
+
 # this requires input to set the ip address space
 {% if not salt['pillar.get']('metallb_pool', None) %}
 no_metallb_pool:
@@ -56,11 +62,11 @@ configure_gitlab_runner_url:
 
 configure_local_chart:
     cmd.run:
-        - name: sed -i 's|gitlab/gitlab-runner|/srv/charts/gitlab-runner-0.78.1.tgz|' /var/lib/rancher/rke2/server/manifests/gitlab-runner-chart-crd.yaml
+        - name: sed -i 's|gitlab/gitlab-runner|gitlab-runner-0.78.1.tgz|' /var/lib/rancher/rke2/server/manifests/gitlab-runner-chart-crd.yaml
         - require: 
             - file: /var/lib/rancher/rke2/server/manifests/gitlab-runner-chart-crd.yaml
 
-/srv/charts/gitlab-runner-0.78.1.tgz:
+/var/lib/rancher/rke2/server/static/charts/gitlab-runner-0.78.1.tgz:
     file.managed:
         - source: salt://files/server/archives/gitlab-runner-0.78.1.tgz
         - makedirs: True

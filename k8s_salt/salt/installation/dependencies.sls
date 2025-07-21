@@ -9,6 +9,7 @@ packages:
             - openscap-utils
             - podman
 
+
 /srv/scripts:
     file.directory:
         - makedirs: True

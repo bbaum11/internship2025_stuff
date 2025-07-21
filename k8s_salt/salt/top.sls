@@ -11,6 +11,8 @@
 # that has a private docker registry it will be pulling images
 # from. instead of having an http repo to pull other files
 # from, they will instead be served from the salt master
+# example usage:
+# salt '*' state.apply pillar='{"metallb_pool":"192.168.47.115-192.168.47.130", "runner_token":"TEST_TOKEN", "gitlab_url":"TEST_URL", "create_registry":True, "cert_filename":"<cert>.crt", "registry_image":"REGISTRY_IMAGE"}'
 
 base:
     '*':

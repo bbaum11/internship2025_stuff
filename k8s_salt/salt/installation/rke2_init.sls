@@ -18,15 +18,15 @@
 #           - file: /srv/scripts/install.sh
 #            - cmd: run_install.sh
 
-/etc/rancher/rke2/registries.yaml:
-    file.managed:
-        - source: salt://files/server/configs/registries.yaml
+# /etc/rancher/rke2/registries.yaml:
+#     file.managed:
+#         - source: salt://files/server/configs/registries.yaml
 
-configure_private_registry:
-    cmd.run:
-        - name: "sed -i 's|PRIVATE_REGISTRY|http://localhost:5000|' /etc/rancher/rke2/registries.yaml"
-        - require:
-            - file: /etc/rancher/rke2/registries.yaml
+# configure_private_registry:
+#     cmd.run:
+#         - name: "sed -i 's|PRIVATE_REGISTRY|http://localhost:5000|' /etc/rancher/rke2/registries.yaml"
+#         - require:
+#             - file: /etc/rancher/rke2/registries.yaml
 
 
 local_traefik_archive:

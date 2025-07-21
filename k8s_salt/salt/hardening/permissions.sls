@@ -1,4 +1,3 @@
-# i am entirely too lazy to do this in salt
 /tmp/file-permissions.sh:
     file.managed:
         - contents: |
@@ -10,7 +9,7 @@
 
                 for file in $path; do
                     if [ -e "$file" ]; then
-                        [ -n "$perm" ] && chmod "$perms" "$file"
+                        [ -n "$perms" ] && chmod "$perms" "$file"
                         [ -n "$owner" ] && chown "$owner" "$file"
                     fi
                 done
@@ -37,6 +36,11 @@
 
 run-perm-script:
     cmd.run:
-        - name: /tmp/file-permissions.sh && rm /tmp/file-permissions.sh
+        - name: /tmp/file-permissions.sh
         - require:
             - file: /tmp/file-permissions.sh
+rm-perm-script:
+    cmd.run:
+        - name: rm /tmp/file-permissions.sh
+        - require:
+            - cmd: run-perm-script
