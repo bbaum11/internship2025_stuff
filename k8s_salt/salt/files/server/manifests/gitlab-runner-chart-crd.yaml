@@ -11,11 +11,10 @@ metadata:
   name: gitlab-runner
   namespace: gitlab-runner
 spec:
-  chart: gitlab/gitlab-runner
   targetNamespace: gitlab-runner
   valuesContent: |-
     image:
-      registry: registry.gitlab.com
+      registry: localhost:5000
       image: my-gitlab-runner
       tag: v1
     useTini: false
