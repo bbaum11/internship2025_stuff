@@ -25,6 +25,7 @@ if a registry needs to be created for specific images, the following process is 
             --restart=always \
             docker.io/library/registry:2
     ```
+#### setting up services to deploy
 - the metallb, gitlab runner, and gitlab runner helper archives are then loaded onto the system
 - a custom gitlab runner image is created containing the required tls cert:
   - this docker file is used:
@@ -36,6 +37,8 @@ if a registry needs to be created for specific images, the following process is 
       ```
     - with this command: podman build -t my-gitlab-runner:v1 -f <dockerfile>
 - then, the metallb files, the gitlab runner helper, and the custom gitlab runner images are retagged and pushed to the logal registry, after which they are removed from the local cache using this [script](salt/files/server/scripts/retag-and-push.sh)
+  - the in the metallb manifest, the images are changed to use the local registry instead of quay.io
+    - `sed -i 's|quay.io|localhost:5000|' /var/lib/rancher/rke2/server/manifests/pools.yaml`
 ### installing rke2 on the airgapped side
 - after moving the files to the airgap, place them into /root/rke2-artifacts/.  
 - the installation script can then be run with  `INSTALL_RKE2_ARTIFACT_PATH=/root/rke2-artifacts sh install.sh`
