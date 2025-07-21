@@ -48,8 +48,7 @@ if a registry needs to be created for specific images, the following process is 
       ```
     - with this command: `podman build -t my-gitlab-runner:v1 -f <dockerfile>`
 - then, the metallb files, the gitlab runner helper, and the custom gitlab runner images are retagged and pushed to the logal registry, after which they are removed from the local cache using this [script](salt/files/server/scripts/retag-and-push.sh)
-  - the in the metallb manifest, the images are changed to use the local registry instead of quay.io
-    - `sed -i 's|quay.io|localhost:5000|' /var/lib/rancher/rke2/server/manifests/pools.yaml`
+
 ### installing rke2 on the airgapped side
 - after moving the files to the airgap, place them into /root/rke2-artifacts/.  
 - the installation script can then be run with  `INSTALL_RKE2_ARTIFACT_PATH=/root/rke2-artifacts sh install.sh`
@@ -67,6 +66,8 @@ sudo useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U # creating an etcd us
     - we need to configure the values.yaml chart to use the custom image
     - the gitlab server and runner authentication token are also added to its values
   - the [metallb manifest](salt/files/server/manifests/metallb-native.yaml) is added to this directory as well as an [ip address pool](salt/files/server/manifests/pools.yaml), which we set the values for
+    - in the metallb manifest, the images are changed to use the local registry instead of quay.io
+      - `sed -i 's|quay.io|localhost:5000|' /var/lib/rancher/rke2/server/manifests/pools.yaml`
 - firewalld needs to be stopped and disabled with `systemctl stop firewalld && systemctl disable firewalld`  
 - we can then startup the cluster with `systemctl start rke2`.
 
