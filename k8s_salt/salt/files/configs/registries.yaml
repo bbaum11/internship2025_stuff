@@ -1,0 +1,10 @@
+mirrors:
+  docker.io:
+    endpoint:
+      - "PRIVATE_REGISTRY"
+  quay.io:
+    endpoint:
+      - "REGISTRY_REGISTRY"
+  ghcr.io:
+    endpoint:
+      - "REGISTRY_REGISTRY"
