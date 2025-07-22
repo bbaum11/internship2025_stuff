@@ -14,14 +14,14 @@ curl -OLs https://github.com/rancher/rke2/releases/download/v1.33.1%2Brke2r1/sha
 curl -OLs https://github.com/rancher/rke2/releases/download/v1.33.1%2Brke2r1/rke2-images-traefik.linux-amd64.tar.zst
 curl -sfL https://get.rke2.io --output install.sh
 ```
-- these images are needed for the metallb install:
+- these images are needed for the gitlab runner install:
   ```
   podman pull registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1
   podman save registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1 | gzip > gitlab-runner.tar.gz
   registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-v18.1.1
   podman save registry.gitlab.com/gitlab-org/gitlab-runner-helper:x86_64-v18.1.1 | gzip > gitlab-runner-helper.tar.gz
   ```
-- these images are needed for the gitlab runner install:
+- these images are needed for the metallb install:
   - 
   ```
   podman pull quay.io/metallb/speaker:v0.15.2
