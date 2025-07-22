@@ -14,7 +14,7 @@
                     fi
                 done
             }
-            apply_permissions "/etc/rancher/rke2/*" "0600" "root:root"
+            apply_permissions "/etc/rancher/rke2/* "0600" "root:root"
             apply_permissions "/var/lib/rancher/rke2/*" "" "root:root"
             apply_permissions "/var/lib/rancher/rke2/agent/*" "" "root:root"
             apply_permissions "/var/lib/rancher/rke2/agent/pod-manifests" "0700" ""

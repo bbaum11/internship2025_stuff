@@ -1,34 +1,3 @@
-
-# local_canal_archive:
-#     file.managed:
-#         - name: /root/rke2-artifacts/rke2-images-canal.linux-amd64.tar.gz
-#         - source: salt://files/server/archives/rke2-images-canal.linux-amd64.tar.gz
-#         - makedirs: True
-
-# local_core_archive:
-#     file.managed:
-#         - name: /root/rke2-artifacts/rke2-images-core.linux-amd64.tar.gz
-#         - source: salt://files/server/archives/rke2-images-core.linux-amd64.tar.gz
-#         - makedirs: True
-
-#remove_install_script:
-#    file.absent:
-#        - name: /srv/scripts/install.sh
-#       - require:
-#           - file: /srv/scripts/install.sh
-#            - cmd: run_install.sh
-
-# /etc/rancher/rke2/registries.yaml:
-#     file.managed:
-#         - source: salt://files/server/configs/registries.yaml
-
-# configure_private_registry:
-#     cmd.run:
-#         - name: "sed -i 's|PRIVATE_REGISTRY|http://localhost:5000|' /etc/rancher/rke2/registries.yaml"
-#         - require:
-#             - file: /etc/rancher/rke2/registries.yaml
-
-
 local_traefik_archive:
     file.managed:
         - name: /root/rke2-artifacts/rke2-images-traefik.linux-amd64.tar.zst
@@ -78,11 +47,4 @@ kernel_parameters:
 create-etcd-user:
     cmd.run:
         - name: sudo useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
-
-# etcd-user:
-#     user.present:
-#         - name: etcd
-#         - system: True
-#         - fullname: etcd user
-#         - shell: /sbin/nologin
-#         - createhome: False
+        - unless: getent passwd etcd >/dev/null 2>&1

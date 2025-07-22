@@ -44,22 +44,6 @@ metallb_speaker:
         - name: /srv/images/speaker.tar.gz
         - source: salt://files/server/archives/speaker.tar.gz
 
-# canal_image_archive:
-#     file.managed:
-#         - name: /srv/images/rke2-images-canal.linux-amd64.tar.gz
-#         - source: salt://files/server/archives/rke2-images-canal.linux-amd64.tar.gz
-
-# traefik_image_archive:
-#     file.managed:
-#         - name: /srv/images/rke2-images-traefik.linux-amd64.tar.gz
-#         - source: salt://files/server/archives/rke2-images-traefik.linux-amd64.tar.gz
-
-# core_image_archive:
-#     file.managed:
-#         - name: /srv/images/rke2-images-core.linux-amd64.tar.gz
-#         - source: salt://files/server/archives/rke2-images-core.linux-amd64.tar.gz
-
-# need to figure out gitlab images
 runner_helper_image:
     file.managed:
         - name: /srv/images/gitlab-runner-helper.tar.gz

@@ -22,13 +22,13 @@ base:
         - registry/create_registry # sets up and populates the private image registry if pillar is set to true
         - registry/deploy_created_registry # pulls the image for the registry if not (assuming there is a prepopulated registry image)
         - hardening/config_file
-        - installation/binary_setup
-        - installation/services # setting up gitlab runner and metallb
+        - installation/binary_setup # adding helm and k9s to the host
+        - installation/services # setting up gitlab runner and metallb. manifests are added to the auto deploy directory here
         - order: 3
-        - installation/rke2_init # manifests are added to the auto deploy directory here
+        - installation/rke2_init # the rke2 core archives are setup here
         - order: 4
         - installation/rke2_startup # startup rke2
         - order: 5
-        - hardening/permissions
+        - hardening/permissions # editing file permissions for the rke2 files. the script job fails despite working when running normally.
         - order: 6
-        - hardening/oscap
+        - hardening/oscap # os hardening
