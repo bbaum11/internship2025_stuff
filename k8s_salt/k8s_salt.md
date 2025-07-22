@@ -29,6 +29,11 @@ curl -sfL https://get.rke2.io --output install.sh
   podman pull quay.io/metallb/controller:v0.15.2
   podman save quay.io/metallb/controller:v0.15.2 | gzip > controller.tar.gz
   ```
+- also these tar binraries:
+```
+curl -OLs https://github.com/derailed/k9s/releases/download/v0.50.9/k9s_Linux_amd64.tar.gz
+curl -OLs https://get.helm.sh/helm-v3.18.4-linux-amd64.tar.gz
+```
 
 ### [adding needed images to a private registry](salt/registry/create_registry.sls)
 if a registry needs to be created for specific images, the following process is done:
