@@ -25,7 +25,8 @@ curl -sfL https://get.rke2.io --output install.sh
   ```podman pull quay.io/metallb/speaker:v0.15.2
   podman save quay.io/metallb/speaker:v0.15.2 | gzip > speaker.tar.gz
   podman pull quay.io/metallb/controller:v0.15.2
-  podman save quay.io/metallb/controller:v0.15.2 | gzip > controller.tar.gz`
+  podman save quay.io/metallb/controller:v0.15.2 | gzip > controller.tar.gz
+  ```
 
 ### [adding needed images to a private registry](salt/registry/create_registry.sls)
 if a registry needs to be created for specific images, the following process is done:
