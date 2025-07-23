@@ -1,10 +1,6 @@
 # Creating a salt state to automate the deployment of the hardened kubernetes cluster
 i was initially going to do this by loading every image into a docker registry and then using those images to install everything. however, it is **significantly** easier to just download the tarballs and install like that. this way, the only images needed are just the ones for my services and the only files needed are the tarballs. the upgrade process is also very straightforward and simple.
 
-
-
-## Manual process of installing rke2 that the salt state is automating
-the salt state is located [here](salt)
 ### downloading everything on the non airgapped side
 - these files are needed for the rke2 install:
 ```
@@ -33,6 +29,10 @@ podman save quay.io/metallb/controller:v0.15.2 | gzip > controller.tar.gz
 curl -OLs https://github.com/derailed/k9s/releases/download/v0.50.9/k9s_Linux_amd64.tar.gz
 curl -OLs https://get.helm.sh/helm-v3.18.4-linux-amd64.tar.gz
 ```
+
+
+## Manual process of installing rke2 that the salt state is automating
+the salt state is located [here](salt)
 
 ### [adding needed images to a private registry](salt/registry/create_registry.sls)
 if a registry needs to be created for specific images, the following process is done:
