@@ -38,6 +38,7 @@ the gitlab runner is deployed to the kubernetes cluster using the helm chart. ho
 In order for RKE2 to operate without issues, firewalld, which interferes with canal's networking, must be disabled. 
 
 ## Maintenance
+the cluster can be managed and monitored with the `kubectl` command, located in `/var/lib/rancher/rke2/bin` directory, and the `k9s` command, located in `/usr/local/bin`. both of these tools will need the `KUBECONFIG` environment variable to be set to `/etc/rancher/rke2/rke2.yaml`. new resources can be created as manifests and deployed normally with kubectl, or they can be placed in /var/lib/rancher/rke2/
 
 ## Removal
 uh...
