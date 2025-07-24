@@ -31,7 +31,15 @@ new_binary:
 restart_rke2_server_service:
     cmd.run:
         - name: systemctl try-restart rke2-server
+        - require:
+            - cmd: new_binary
+            - cmd: new_local_main_archive
+            - cmd: untar_upgrade_tarfile
 
 restart_rke2_agent_service:
     cmd.run:
         - name: systemctl try-restart rke2-agent
+        - require:
+            - cmd: new_binary
+            - cmd: new_local_main_archive
+            - cmd: untar_upgrade_tarfile
