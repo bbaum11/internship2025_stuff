@@ -1,5 +1,5 @@
 # Automating the deployment of a kubernetes cluster with salt
-- Description of project
+- The purpose of this project is to 
  
 ## Assumptions
 - RHEL 9 machines
