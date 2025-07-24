@@ -35,6 +35,7 @@ restart_rke2_server_service:
             - cmd: new_binary
             - cmd: new_local_main_archive
             - cmd: untar_upgrade_tarfile
+            - cmd: new_local_traefik_archive
 
 restart_rke2_agent_service:
     cmd.run:
@@ -43,3 +44,4 @@ restart_rke2_agent_service:
             - cmd: new_binary
             - cmd: new_local_main_archive
             - cmd: untar_upgrade_tarfile
+            - cmd: new_local_traefik_archive
