@@ -48,6 +48,8 @@ upgrading the core kubernetes cluster involves:
 - deleting the old images (stored in `/var/lib/rancher/rke2/images/*`) and the old binary (stored in `/usr/local/bin/rke2`) and replacing them with the new ones
 - restarting the kubernetes service
 
+this can be done by running the [upgrade_deps.sh](upgrade_deps.sh) script and moving the created deps.tar file over to the airgapped network.  
+
 ## Contributions
 
 ## License
