@@ -8,4 +8,4 @@
 5. [implementing gitlab runners using the kubernetes executor on a cluster](gitlab/gitlab_runner.md)
 6. [building a deployment to launch on the cluster](service_deployment/deployment_documentation.md)
 7. [hardening the kubernetes cluster](k8s_hardening/rke2_hardening.md)
-8. [automating the kubernetes cluster deployment with salt](k8s_salt/k8s_salt.md)
+8. [automating the kubernetes cluster deployment with salt](k8s_salt/readme.md)
