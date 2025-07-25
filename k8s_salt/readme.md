@@ -12,6 +12,23 @@
   - working certificates on the salt minions that can connect to the gitlab server
 
 ## Install
+to deploy the salt state to the kuberntes server and agents, the salt [state directory](salt) needs to be placed on the salt master and set as a file root for the kubernetes state. the server and agent labels should be set to target the desired machines. for example:
+```
+k8s:
+ '*':
+   - installation/dependencies
+   - registry/create_registry
+   - ...
+ '*server*':
+   - hardening/config_file
+   - installation/services
+   - ...
+ '*agent*':
+   - hardening/worker_config_file
+   - installation/rke2_worker_init
+   - ...
+```
+
 
 ## Architecture
 ### kubernetes core
