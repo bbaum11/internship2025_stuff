@@ -85,4 +85,3 @@ to keep the deployed configurations secure, the following practices are nessecar
 - openscap-utils
 ### packages to not remove
 - dnsmasq
-- 
