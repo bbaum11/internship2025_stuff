@@ -1,5 +1,5 @@
 # Automating the deployment of a kubernetes cluster with salt
-- The purpose of this project is to 
+the purpose of this project is to create a kubernetes cluster that can better allocate resources for and run gitlab runners. it will also serve as a way to consolidate separate containerized services under one platform.
  
 ## Assumptions
 - RHEL 9 machines
@@ -55,7 +55,15 @@ the gitlab runner is deployed to the kubernetes cluster using the helm chart. ho
 In order for RKE2 to operate without issues, firewalld, which interferes with canal's networking, must be disabled. 
 
 ## Maintenance
-the cluster can be managed and monitored with the `kubectl` command, located in `/var/lib/rancher/rke2/bin` directory, and the `k9s` command, located in `/usr/local/bin`. both of these tools will need the `KUBECONFIG` environment variable to be set to `/etc/rancher/rke2/rke2.yaml`. new resources can be created as manifests and deployed normally with kubectl, or they can be placed in `/var/lib/rancher/rke2/server/manifests` on the server node, which will automatically 
+the following tools are used to manage the cluster. both require the KUBECONFIG environment variable to be set to `/etc/rancher/rke2/rke2.yaml`.
+- **Kubectl**
+ - this is the standard kubectl executable, but it is located in the `/var/lib/rancher/rke2/bin`
+ - while resources can be created and deleted with this, it is *not* recommended to try to delete any resources deployed from `/var/lib/rancher/rke2/server/manifests`, as this will cause issues with removing the namespace.
+ - it requires the KUBECONFIG environment variable to be correctly set
+- **k9s**
+ - this tool is used to monitor and manage the cluster through a gui, located in `/usr/local/bin`
+ - it also requires the KUBECONFIG environment variable to be correctly set
+resources can be added normally with kubectl, but the recommended way is to place the manifests into `/var/lib/rancher/rke2/server/manifests`. this deploys them automatically every time the server is restarted.
 
 ## Removal
 uh...
