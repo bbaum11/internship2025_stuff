@@ -56,13 +56,13 @@ In order for RKE2 to operate without issues, firewalld, which interferes with ca
 
 ## Maintenance
 the following tools are used to manage the cluster. both require the KUBECONFIG environment variable to be set to `/etc/rancher/rke2/rke2.yaml`.
-- **Kubectl**
- - this is the standard kubectl executable, but it is located in the `/var/lib/rancher/rke2/bin`
- - while resources can be created and deleted with this, it is *not* recommended to try to delete any resources deployed from `/var/lib/rancher/rke2/server/manifests`, as this will cause issues with removing the namespace.
- - it requires the KUBECONFIG environment variable to be correctly set
-- **k9s**
- - this tool is used to monitor and manage the cluster through a gui, located in `/usr/local/bin`
- - it also requires the KUBECONFIG environment variable to be correctly set
+- **Kubectl**  
+  - this is the standard kubectl executable, but it is located in the `/var/lib/rancher/rke2/bin`
+  - while resources can be created and deleted with this, it is *not* recommended to try to delete any resources deployed from `/var/lib/rancher/rke2/server/manifests`, as this will cause issues with removing the namespace.
+  - it requires the KUBECONFIG environment variable to be correctly set
+- **k9s**  
+  - this tool is used to monitor and manage the cluster through a gui, located in `/usr/local/bin`
+  - it also requires the KUBECONFIG environment variable to be correctly set
 resources can be added normally with kubectl, but the recommended way is to place the manifests into `/var/lib/rancher/rke2/server/manifests`. this deploys them automatically every time the server is restarted.
 
 ## Removal
