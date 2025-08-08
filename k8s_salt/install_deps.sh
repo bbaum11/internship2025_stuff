@@ -2,9 +2,16 @@
 
 set -o pipefail
 
-
 # sourcing the install.sh script except for the last two lines that execute it
 wget -O install.sh get.rke2.io
+if [[ "$(sha256sum install.sh) != "2d24db2184dd6b1a5e281fa45cc9a8234c889394721746f89b5fe953fdaaf40a  install.sh" ]]; then
+	read -p "the shasum of the install script did not match what was expected. continue with the download? (y/n)" confirm
+ 	if [[ $confirm == "n" ]]; then
+  		exit 0
+	fi
+ 	echo "consider changing this script to use the new checksum"
+fi
+
 head -n -2 install.sh > trimmed-install.sh
 source trimmed-install.sh
 
@@ -36,7 +43,6 @@ download_bin(){
     download "${TMP_BIN}" "${BIN_URL}"
 }
 
-
 # modifying the tmp folder setup
 setup_tmp() {
     TMP_DIR=$(mktemp -d -t rke2-install.XXXXXXXXXX)
@@ -53,9 +59,6 @@ setup_tmp() {
     }
     trap cleanup INT EXIT
 }
-
-
-
 
 setup_env
 setup_arch
@@ -92,7 +95,6 @@ mv ${TMP_DIR}/rke2.sha256sum-${ARCH}.txt ${TMP_DIR}/sha256sum-${ARCH}.txt
 # moving the rke2 archives in
 cp -r ${TMP_DIR}/* .
 info "copied contents of the tmp directory to $(pwd)"
-
 
 info "pulling gitlab runner"
 podman pull registry.gitlab.com/gitlab-org/gitlab-runner:alpine-v18.1.1
@@ -133,10 +135,7 @@ while IFS= read -r line; do
         podman save $line | gzip > $filename
 done < "${tmpfile}"
 
-
 popd # archives
-
-
 mkdir binaries
 pushd binaries
 	info "downloading k9s binary"
@@ -152,9 +151,7 @@ pushd binaries
 	mv linux-amd64/helm ./.
 	rm -rf linux-amd64 helm-v3.18.4-linux-amd64.tar
 popd # binaries
-
 popd # server
-
 popd # files
 
 tar -cvf deps.tar files
