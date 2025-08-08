@@ -61,6 +61,20 @@ setup_tmp() {
     trap cleanup INT EXIT
 }
 
+if [[ upgrade == "true" ]]; then
+
+
+
+
+
+
+
+
+
+
+
+
+
 setup_env
 setup_arch
 verify_downloader curl || verify_downloader wget || fatal "can not find curl or wget for downloading files"
