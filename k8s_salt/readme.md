@@ -1,4 +1,4 @@
-# Automating the deployment of a kubernetes cluster with salt
+(# Automating the deployment of a kubernetes cluster with salt
 the purpose of this project is to create a kubernetes cluster that can better allocate resources for and run gitlab runners. it will also serve as a way to consolidate separate containerized services under one platform.
  
 ## Assumptions
@@ -65,7 +65,7 @@ in place of upstream kubernetes, Rancher Kubernetes Engine 2 (`https://docs.rke2
   - flannel for the overlay network and calico for the network policies
 - helm controller for a built-in way to deploy helm charts
 - nginx ingress controller
-instead of using nginx, which is the default ingress, upstream traefik was used intead (.
+instead of using nginx, which is the default ingress, upstream traefik was used intead
 
 there are two ways of getting images onto the cluster:
 #### - pulling them from a registry
