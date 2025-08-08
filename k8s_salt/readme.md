@@ -31,12 +31,12 @@ k8s:
 there are also file dependencies that need to be installed. [this script](install_deps.sh) handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
 
 ## Salt Structure
-file                       | purpose
----                        |  ---
-salt                       | base directory for the salt state
-| -- files                 | location of files to be places on the salt minions
-|     |-- server           | files for the server (master) k8s node
-|     |     | -- archives  | 
+file                         | purpose
+---                          |  ---
+`salt`                       | base directory for the salt state
+`| -- files`                 | location of files to be places on the salt minions
+`|     |-- server`           | files for the server (master) k8s node
+`|     |     | -- archives`  | 
 
 ## Architecture
 ### kubernetes core
