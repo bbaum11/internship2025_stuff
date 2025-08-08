@@ -28,6 +28,7 @@ k8s:
    - installation/rke2_worker_init
    - ...
 ```
+there are also file dependencies that need to be installed. this script handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
 
 ## Salt Structure
 
@@ -75,7 +76,7 @@ it is recommended that when testing new resources to add to the cluster, that th
 
 
 ## Removal
-rke2 comes with the uninstall script `/usr/local/bin/rke2-uninstall.sh`, which completely uninstalls the cluster.
+rke2 comes with the uninstall script `/usr/local/bin/rke2-uninstall.sh`, which completely uninstalls the cluster. the registry container can also be stopped by running `podman ps` to get the id of the container, and then `podman stop <container_id> && podman remove <container_id>`
 
 ## Upgrade
 upgrading the core kubernetes cluster involves:
@@ -111,7 +112,8 @@ sending requests to the external ip (using a dns hostname) works on the host nod
 `https://raymii.org/s/tutorials/Self_signed_Root_CA_in_Kubernetes_with_k3s_cert-manager_and_traefik.html`
 using this guide, a configuration of tls for webservices had been started. the guide details creating a certificate authority for the root authority and an intermediate certificate authority that issues certificates for the services
 
-### 
+### single image registry
+currently, a docker registry container is being run on each node in the cluster, which takes up more space than necessary because each node has two copies of the images they need. a more efficient solution would be to change the service configuration to point to a singluar external registry that contains the necessary images.
 
 
 ## Contributions
