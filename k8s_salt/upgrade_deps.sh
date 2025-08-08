@@ -8,21 +8,6 @@ wget -O install.sh get.rke2.io
 head -n -2 install.sh > trimmed-install.sh
 source trimmed-install.sh
 
-# copying the download tarball function but making it download the traefik archive instead
-download_traefik_airgap_tarball(){
-    if [ -n "${INSTALL_RKE2_COMMIT}" ]; then
-	TRAEFIK_AIRGAP_TARBALL_URL=${STORAGE_URL}/rke2-images-traefik.${SUFFIX}-${INSTALL_RKE2_COMMIT}.tar.zst
-    	# try for zst first; if that fails use gz for older release branches
-    	if ! check_download "${TRAEFIK_AIRGAP_TARBALL_URL}"; then
-       		TRAEFIK_AIRGAP_TARBALL_URL=${STORAGE_URL}/rke2-images-traefik.${SUFFIX}-${INSTALL_RKE2_COMMIT}.tar.gz
-    	fi
-    else
-	version_urlsafe="$(echo ${INSTALL_RKE2_VERSION} | sed 's/\+/%2B/g')"
-	TRAEFIK_AIRGAP_TARBALL_URL=${INSTALL_RKE2_ARTIFACT_URL}/${version_urlsafe}/rke2-images-traefik.${SUFFIX}.tar.zst
-    fi
-    info "downloading traefik airgap tarball at ${TRAEFIK_AIRGAP_TARBALL_URL}"
-    download "${TMP_TRAEFIK_AIRGAP_TARBALL}" "${TRAEFIK_AIRGAP_TARBALL_URL}"
-}
 
 # copying the download tarball function but making it download the traefik archive instead
 download_airgap_tarball(){
@@ -57,7 +42,6 @@ download_bin(){
 setup_tmp() {
     TMP_DIR=$(mktemp -d -t rke2-install.XXXXXXXXXX)
     TMP_AIRGAP_TARBALL=${TMP_DIR}/rke2-images.${SUFFIX}.tar.zst
-    TMP_TRAEFIK_AIRGAP_TARBALL=${TMP_DIR}/rke2-images-traefik.${SUFFIX}.tar.zst
     TMP_BIN=${TMP_DIR}/rke2
     cleanup() {
         code=$?
@@ -79,7 +63,6 @@ get_release_version
 setup_tmp
 download_bin
 download_airgap_tarball
-download_traefik_airgap_tarball
 
 echo -e "[info] contents of the tmp directory:\n$(ls ${TMP_DIR})"
 mkdir rke2-tmp
@@ -90,7 +73,7 @@ rm -f install.sh trimmed-install.sh
 pushd rke2-tmp
 
 tar -cvf deps.tar $(ls)
-info "dependencies saved to $(pwd)/deps.tar"
+info "dependencies saved to deps.tar"
 cp deps.tar ../.
 
 popd
