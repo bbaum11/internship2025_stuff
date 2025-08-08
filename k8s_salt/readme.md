@@ -67,16 +67,16 @@ the following tools are used to manage the cluster. both require the KUBECONFIG 
   - this is the standard kubectl executable, but it is located in the `/var/lib/rancher/rke2/bin`
   - while resources can be created and deleted with this, it is *not* recommended to try to delete any resources deployed from `/var/lib/rancher/rke2/server/manifests`, as this will cause issues with removing the namespace.
   - it requires the KUBECONFIG environment variable to be correctly set
-- [**k9s**](https://k9scli.io/)
+- **k9s** (docs here: `https://k9scli.io/`)
   - this tool is used to monitor and manage the cluster through a gui, located in `/usr/local/bin`
   - it also requires the KUBECONFIG environment variable to be correctly set
 it is recommended that when testing new resources to add to the cluster, that they are applied with `kubectl -f <file.yaml>`. once they are in a final form, they should then be added to the `/var/lib/rancher/rke2/server/manifests` directory.  
-- **rke2-killall.sh**
- - this script (located in `/usr/local/bin`) stops all rke2 processes, and can be useful when trying to restart processes when there's errors not fixed by restarting the systemd service
+- **rke2-killall.sh**  
+ - this script (located in `/usr/local/bin`) stops all rke2 processes, and can be useful when trying to restart processes when there's errors not fixed by restarting the systemd service.  
 
 
 ## Removal
-rke2 comes with the uninstall script `/usr/local/bin/rke2-uninstall.sh`, which completely uninstalls the cluster. the registry container can also be stopped by running `podman ps` to get the id of the container, and then `podman stop <container_id> && podman remove <container_id>`
+rke2 comes with the uninstall script `/usr/local/bin/rke2-uninstall.sh`, which completely uninstalls the cluster. the registry container can also be stopped by running `podman ps` to get the id of the container, and then `podman stop <container_id> && podman remove <container_id>`. additionally, the `/srv/images` and `/srv/scripts` directories can be removed from the system.
 
 ## Upgrade
 upgrading the core kubernetes cluster involves:
