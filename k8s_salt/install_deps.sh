@@ -4,7 +4,7 @@ set -o pipefail
 
 # sourcing the install.sh script except for the last two lines that execute it
 wget -O install.sh get.rke2.io
-if [[ "$(sha256sum install.sh) != "2d24db2184dd6b1a5e281fa45cc9a8234c889394721746f89b5fe953fdaaf40a  install.sh" ]]; then
+if [[ "$(sha256sum install.sh)" != "2d24db2184dd6b1a5e281fa45cc9a8234c889394721746f89b5fe953fdaaf40a  install.sh" ]]; then
 	read -p "the shasum of the install script did not match what was expected. continue with the download? (y/n)" confirm
  	if [[ $confirm == "n" ]]; then
   		exit 0
