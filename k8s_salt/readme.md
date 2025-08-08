@@ -28,7 +28,7 @@ k8s:
    - installation/rke2_worker_init
    - ...
 ```
-there are also file dependencies that need to be installed. [this script](install_deps.sh) handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory on the salt master and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
+there are also file dependencies that need to be installed. [this script](install_deps.sh) with the argument `install.sh -i` handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory on the salt master and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
 ```
 
 ```
@@ -106,7 +106,7 @@ upgrading the core Kubernetes cluster involves:
 - deleting the old images (stored in `/var/lib/rancher/rke2/images/*`) and the old binary (stored in `/usr/local/bin/rke2`) and replacing them with the new ones
 - restarting the Kubernetes service
 
-this can be done by running the [upgrade_deps.sh](upgrade_deps.sh) script and moving the created `deps.tar` file over to the air gapped network. on the air gapped network, move the file into `salt/files/upgrade/` on the salt master and apply the `k8s-upgrade` state.
+this can be done by running the [install_deps.sh](install_deps.sh) script with the argument `install.sh -u` and moving the created `deps.tar` file over to the air gapped network. on the air gapped network, move the file into `salt/files/upgrade/` on the salt master and apply the `k8s-upgrade` state.
 
 ## Known Issues
 
