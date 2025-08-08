@@ -31,7 +31,9 @@ k8s:
 there are also file dependencies that need to be installed. [this script](install_deps.sh) handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
 
 ## Salt Structure
-
+file        | purpose
+---         |  ---
+salt        | base directory for the salt state
 
 ## Architecture
 ### kubernetes core
@@ -58,11 +60,12 @@ the gitlab runner kubernetes executor runs as a single container that spawns in 
 the gitlab runner is deployed to the kubernetes cluster using the helm chart. however, instead of applying the chart normally with the helm cli tool, it is instead deployed as a manifest using rke2's HelmChart crd. the main gitlab runner container image has been modified to add a ca trust certificate so that it can properly operate with custom certificates. for the helm chart, in order to comply with the rke2 cis profile's podSecurity requirements, the values.yaml has added a patch to each of the containers that the runner uses to configure their podSecurity. Lastly, in order to circumvent the isssue with coreDNS (details below), the gitlab server is added as a host alias to each of the pods.
 
 ## Security Implications
-In order for RKE2 to operate without issues, firewalld, which interferes with canal's networking, must be disabled. iptables, which canal manages, still runs on the host node.
-With the gitlab runners, because they are essentially reverse shells, they introduce another potential vulnerability. 
+In order for RKE2 to operate without issues, firewalld, which interferes with canal's networking, must be disabled. iptables, which canal manages, still runs on the host node. With the gitlab runners, because they are essentially reverse shells, they introduce another potential vulnerability. Additionally, there are some secrets stored in plain text in the manifests on the server node (such as the gitlab runner registration token), which requires those files to be secured and potentially encrypted.
 
 ## Maintenance
 the following tools are used to manage the cluster. both require the KUBECONFIG environment variable to be set to `/etc/rancher/rke2/rke2.yaml`.
+- **rke2-killall.sh**
+ - this script (located in `/usr/local/bin`) stops all rke2 processes, and can be useful when trying to restart processes when there's errors not fixed by restarting the systemd service.
 - **Kubectl**  
   - this is the standard kubectl executable, but it is located in the `/var/lib/rancher/rke2/bin`
   - while resources can be created and deleted with this, it is *not* recommended to try to delete any resources deployed from `/var/lib/rancher/rke2/server/manifests`, as this will cause issues with removing the namespace.
@@ -70,10 +73,8 @@ the following tools are used to manage the cluster. both require the KUBECONFIG 
 - **k9s** (docs here: `https://k9scli.io/`)
   - this tool is used to monitor and manage the cluster through a gui, located in `/usr/local/bin`
   - it also requires the KUBECONFIG environment variable to be correctly set  
-it is recommended that when testing new resources to add to the cluster, that they are applied with `kubectl -f <file.yaml>`. once they are in a final form, they should then be added to the `/var/lib/rancher/rke2/server/manifests` directory.  
-- **rke2-killall.sh**
- - this script (located in `/usr/local/bin`) stops all rke2 processes, and can be useful when trying to restart processes when there's errors not fixed by restarting the systemd service.  
-
+it is recommended that when testing new resources to add to the cluster, that they are applied with `kubectl -f <file.yaml>`. once they are in a final form, they should then be added to the `/var/lib/rancher/rke2/server/manifests` directory. manifests placed here will be applied every time the service restarts.
+  
 
 ## Removal
 rke2 comes with the uninstall script `/usr/local/bin/rke2-uninstall.sh`, which completely uninstalls the cluster. the registry container can also be stopped by running `podman ps` to get the id of the container, and then `podman stop <container_id> && podman remove <container_id>`. additionally, the `/srv/images` and `/srv/scripts` directories can be removed from the system.
@@ -117,6 +118,7 @@ currently, a docker registry container is being run on each node in the cluster,
 
 
 ## Contributions
+
 
 ## License
 MIT License
