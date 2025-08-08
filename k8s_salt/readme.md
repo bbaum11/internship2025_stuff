@@ -35,7 +35,7 @@ file                         | purpose
 --- |  ---
 `salt/` | base directory for the salt state
 `├── files/` | location of files to be places on the salt minions
-`|     ├── server/` | files for the server (master) k8s node
+`│     ├── server/` │ files for the server (master) k8s node
 `|     |     ├── archives/` | archive files, including images and the compressed rke2 binary
 `|     |     ├── binaries/` | contains the helm and k9s binaries
 `|     |     ├── configs /` | contains the main configuration file for rke2 and the registry configuration file
