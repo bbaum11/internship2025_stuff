@@ -33,20 +33,21 @@ there are also file dependencies that need to be installed. [this script](instal
 ## Salt Structure
 file                         | purpose
 ---                          |  ---
-salt/                        | base directory for the salt state
-| -- files/                  | location of files to be places on the salt minions
-|     | -- server/           | files for the server (master) k8s node
-|     |     | -- archives/   | archive files, including images and the compressed rke2 binary
-|     |     | -- binaries/   | contains the helm and k9s binaries
-|     |     | -- configs /   | contains the main configuration file for rke2 and the registry configuration file
-|     |     | -- manifests/  | manifests for the services that are deployed to the cluster. these are placed in the rke2 auto-deploy directory
-|     |     | -- scripts/    | contains scripts used by the salt state for installation, registry creation, and file permissions
-|     | -- agent/            | files for agent specific configuaration
-|     | -- upgrade/          | stores the upgrade dependencies tarball
-| -- hardening/              | stores state files for hardening the cluster with both rke2 and the underlying image
-| -- installation/           | stores state files for installing rke2
-| -- registry/               | stores state files for setting up the local container image registry
-| -- upgrade/                | stores the state file for upgrading rke2
+`salt/`                        | base directory for the salt state
+`├── files/`                  | location of files to be places on the salt minions
+`|     ├── server/`           | files for the server (master) k8s node
+`|     |     ├── archives/`   | archive files, including images and the compressed rke2 binary
+`|     |     ├── binaries/`   | contains the helm and k9s binaries
+`|     |     ├── configs /`   | contains the main configuration file for rke2 and the registry configuration file
+`|     |     ├── manifests/`  | manifests for the services that are deployed to the cluster. these are placed in the rke2 auto-deploy directory
+`|     |     ├── scripts/`    | contains scripts used by the salt state for installation, registry creation, and file permissions
+`|     ├── agent/`            | files for agent specific configuaration
+`|     ├── upgrade/`          | stores the upgrade dependencies tarball
+`├── hardening/`              | stores state files for hardening the cluster with both rke2 and the underlying image
+`├── installation/`           | stores state files for installing rke2
+`├── registry/`               | stores state files for setting up the local container image registry
+`├── upgrade/`                | stores the state file for upgrading rke2
+
 
 ## Architecture
 ### kubernetes core
