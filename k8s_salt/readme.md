@@ -28,7 +28,7 @@ k8s:
    - installation/rke2_worker_init
    - ...
 ```
-there are also file dependencies that need to be installed. this script handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
+there are also file dependencies that need to be installed. [this script](install_deps.sh) handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
 
 ## Salt Structure
 
