@@ -1,4 +1,4 @@
-(# Automating the deployment of a kubernetes cluster with salt
+# Automating the deployment of a kubernetes cluster with salt
 the purpose of this project is to create a kubernetes cluster that can better allocate resources for and run gitlab runners. it will also serve as a way to consolidate separate containerized services under one platform.
  
 ## Assumptions
