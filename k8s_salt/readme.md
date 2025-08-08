@@ -31,7 +31,10 @@ k8s:
 there are also file dependencies that need to be installed. [this script](install_deps.sh) handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
 ```
 
+```
+the salt state can then be applied, targeting the desired nodes.
 
+if agent node installation is desired, the server node must be setup with kubernetes first. once it is, an agent registration token will be stored at `/var/lib/rancher/rke2/server/node-token`. this should be placed in the config file on the salt master in `salt/files/agent/config.yaml` to replace the `ADD_TOKEN` field. additionally, the `SERVER_IP` field should be replaced with the ip address of the server node.
 
 
 ## Salt Structure
