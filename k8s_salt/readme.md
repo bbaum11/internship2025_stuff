@@ -69,7 +69,7 @@ the following tools are used to manage the cluster. both require the KUBECONFIG 
   - it requires the KUBECONFIG environment variable to be correctly set
 - **k9s** (docs here: `https://k9scli.io/`)
   - this tool is used to monitor and manage the cluster through a gui, located in `/usr/local/bin`
-  - it also requires the KUBECONFIG environment variable to be correctly set
+  - it also requires the KUBECONFIG environment variable to be correctly set  
 it is recommended that when testing new resources to add to the cluster, that they are applied with `kubectl -f <file.yaml>`. once they are in a final form, they should then be added to the `/var/lib/rancher/rke2/server/manifests` directory.  
 - **rke2-killall.sh**  
  - this script (located in `/usr/local/bin`) stops all rke2 processes, and can be useful when trying to restart processes when there's errors not fixed by restarting the systemd service.  
