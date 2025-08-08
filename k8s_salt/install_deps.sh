@@ -50,6 +50,7 @@ setup_tmp() {
     TMP_CHECKSUMS=${TMP_DIR}/rke2.sha256sum-${ARCH}.txt
     TMP_TARBALL=${TMP_DIR}/rke2.${SUFFIX}.tar.gz
     TMP_AIRGAP_CHECKSUMS=${TMP_DIR}/rke2-images.checksums
+	TMP_BIN=${TMP_DIR}/rke2
     cleanup() {
         code=$?
         set +e
