@@ -33,10 +33,10 @@ there are also file dependencies that need to be installed. [this script](instal
 ## Salt Structure
 file                         | purpose
 ---                          |  ---
-`salt`                       | base directory for the salt state
-`| -- files`                 | location of files to be places on the salt minions
-`|     |-- server`           | files for the server (master) k8s node
-`|     |     | -- archives`  | 
+```salt```                       | base directory for the salt state
+```| -- files```                | location of files to be places on the salt minions
+```|     |-- server```           | files for the server (master) k8s node
+```|     |     | -- archives```  | 
 
 ## Architecture
 ### kubernetes core
