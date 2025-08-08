@@ -1,18 +1,18 @@
-# Automating the deployment of a kubernetes cluster with salt
-the purpose of this project is to create a kubernetes cluster that can better allocate resources for and run gitlab runners. it will also serve as a way to consolidate separate containerized services under one platform.
+# Automating the deployment of a Kubernetes cluster with salt
+the purpose of this project is to create a Kubernetes cluster that can better allocate resources for and run Gitlab runners. it will also serve as a way to consolidate separate containerized services under one platform.
  
 ## Assumptions
 - RHEL 9 machines
-- running on airgapped network
+- running on air gapped network
   - working rpm repo mirror with:
     - podman
     - openscap
 - working gitlab server with the ability to create runners and retrieve the runner tokens
 - salt-master node with connected salt-minions
-  - working certificates on the salt minions that can connect to the gitlab server
+  - working certificates on the salt minions that can connect to the GitLab server
 
 ## Install
-to deploy the salt state to the kuberntes server and agents, the salt [state directory](salt) needs to be placed on the salt master and set as a file root for the kubernetes state. the server and agent labels should be set to target the desired machines. for example:
+to deploy the salt state to the Kubernetes server and agents, the salt [state directory](salt) needs to be placed on the salt master and set as a file root for the Kubernetes state. the server and agent labels should be set to target the desired machines. for example:
 ```
 k8s:
  '*':
@@ -34,7 +34,7 @@ there are also file dependencies that need to be installed. [this script](instal
 ```
 the salt state can then be applied, targeting the desired nodes.
 
-if agent node installation is desired, the server node must be setup with kubernetes first. once it is, an agent registration token will be stored at `/var/lib/rancher/rke2/server/node-token`. this should be placed in the config file on the salt master in `salt/files/agent/config.yaml` to replace the `ADD_TOKEN` field. additionally, the `SERVER_IP` field should be replaced with the ip address of the server node.
+if agent node installation is desired, the server node must be setup with Kubernetes first. once it is, an agent registration token will be stored at `/var/lib/rancher/rke2/server/node-token`. this should be placed in the config file on the salt master in `salt/files/agent/config.yaml` to replace the `ADD_TOKEN` field. additionally, the `SERVER_IP` field should be replaced with the ip address of the server node.
 
 
 ## Salt Structure
@@ -48,7 +48,7 @@ file &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp
 `│     │     ├── configs /`      | contains the main configuration file for rke2 and the registry configuration file
 `│     │     ├── manifests/`     | manifests for the services that are deployed to the cluster. these are placed in the rke2 auto-deploy directory
 `│     │     ┖── scripts/`       | contains scripts used by the salt state for installation, registry creation, and file permissions
-`│     ├── agent/`               | files for agent specific configuaration
+`│     ├── agent/`               | files for agent specific configuration
 `│     ┖── upgrade/`             | stores the upgrade dependencies tarball
 `├── hardening/`                 | stores state files for hardening the cluster with both rke2 and the underlying image
 `├── installation/`              | stores state files for installing rke2
@@ -57,31 +57,31 @@ file &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp
 
 
 ## Architecture
-### kubernetes core
-in place of upstream kubernetes, Rancher Kubernetes Engine 2 (`https://docs.rke2.io/`) was used as the kubernetes distribution. it comes packaged with the following components:
+### Kubernetes core
+in place of upstream Kubernetes, Rancher Kubernetes Engine 2 (`https://docs.rke2.io/`) was used as the Kubernetes distribution. it comes packaged with the following components:
 - the rke2 implementation of `kubelet`
 - etcd for the control plane data store
 - canal for the CNI
   - flannel for the overlay network and calico for the network policies
 - helm controller for a built-in way to deploy helm charts
 - nginx ingress controller
-instead of using nginx, which is the default ingress, upstream traefik was used intead
+instead of using nginx, which is the default ingress, upstream traefik was used instead
 
 there are two ways of getting images onto the cluster:
 #### - pulling them from a registry
-this is the traditional way to get images onto a kubernetes cluster. a registry is run locally on each kubernetes node. these registries are all identical and contain the images for deployments not native to rke2. this is done via podman hosting a docker registry on localhost:5000. the registry can either be created by the salt state, or if one has been prepopulated and stored as an image, that image can be deployed instead.
+this is the traditional way to get images onto a Kubernetes cluster. a registry is run locally on each kubernetes node. these registries are all identical and contain the images for deployments not native to rke2. this is done via podman hosting a docker registry on localhost:5000. the registry can either be created by the salt state, or if one has been prepopulated and stored as an image, that image can be deployed instead.
 
 #### - adding them to the rke2's local image cache
 rke2 comes with the ability to place archived images in `/var/lib/rancher/rke2/agent/images`, which it then caches locally instead of needing to pull them. this is how the rke2 core images are loaded onto the server.
 
-### gitlab runner 
+### GitLab runner 
 `https://docs.gitlab.com/runner/executors/kubernetes/`
-the gitlab runner kubernetes executor runs as a single container that spawns in new containers to perform jobs whenever it is given a job.
+the GitLab runner Kubernetes executor runs as a single container that spawns in new containers to perform jobs whenever it is given a job.
 
-the gitlab runner is deployed to the kubernetes cluster using the helm chart. however, instead of applying the chart normally with the helm cli tool, it is instead deployed as a manifest using rke2's HelmChart crd. the main gitlab runner container image has been modified to add a ca trust certificate so that it can properly operate with custom certificates. for the helm chart, in order to comply with the rke2 cis profile's podSecurity requirements, the values.yaml has added a patch to each of the containers that the runner uses to configure their podSecurity. Lastly, in order to circumvent the isssue with coreDNS (details below), the gitlab server is added as a host alias to each of the pods.
+the GitLab runner is deployed to the Kubernetes cluster using the helm chart. however, instead of applying the chart normally with the helm cli tool, it is instead deployed as a manifest using rke2's HelmChart crd. the main GitLab runner container image has been modified to add a ca trust certificate so that it can properly operate with custom certificates. for the helm chart, in order to comply with the rke2 cis profile's podSecurity requirements, the values.yaml has added a patch to each of the containers that the runner uses to configure their podSecurity. Lastly, in order to circumvent the issue with coreDNS (details below), the GitLab server is added as a host alias to each of the pods.
 
 ## Security Implications
-In order for RKE2 to operate without issues, firewalld, which interferes with canal's networking, must be disabled. iptables, which canal manages, still runs on the host node. With the gitlab runners, because they are essentially reverse shells, they introduce another potential vulnerability. Additionally, there are some secrets stored in plain text in the manifests on the server node (such as the gitlab runner registration token), which requires those files to be secured and potentially encrypted.
+In order for RKE2 to operate without issues, firewalld, which interferes with canal's networking, must be disabled. iptables, which canal manages, still runs on the host node. With the GitLab runners, because they are essentially reverse shells, they introduce another potential vulnerability. Additionally, there are some secrets stored in plain text in the manifests on the server node (such as the GitLab runner registration token), which requires those files to be secured and potentially encrypted.
 
 ## Maintenance
 the following tools are used to manage the cluster. both require the KUBECONFIG environment variable to be set to `/etc/rancher/rke2/rke2.yaml`.
@@ -101,18 +101,18 @@ it is recommended that when testing new resources to add to the cluster, that th
 rke2 comes with the uninstall script `/usr/local/bin/rke2-uninstall.sh`, which completely uninstalls the cluster. the registry container can also be stopped by running `podman ps` to get the id of the container, and then `podman stop <container_id> && podman remove <container_id>`. additionally, the `/srv/images` and `/srv/scripts` directories can be removed from the system.
 
 ## Upgrade
-upgrading the core kubernetes cluster involves:
+upgrading the core Kubernetes cluster involves:
 - downloading the new image archives and binary
 - deleting the old images (stored in `/var/lib/rancher/rke2/images/*`) and the old binary (stored in `/usr/local/bin/rke2`) and replacing them with the new ones
-- restarting the kubernetes service
+- restarting the Kubernetes service
 
-this can be done by running the [upgrade_deps.sh](upgrade_deps.sh) script and moving the created `deps.tar` file over to the airgapped network. on the airgapped network, move the file into `salt/files/upgrade/` on the salt master and apply the `k8s-upgrade` state.
+this can be done by running the [upgrade_deps.sh](upgrade_deps.sh) script and moving the created `deps.tar` file over to the air gapped network. on the air gapped network, move the file into `salt/files/upgrade/` on the salt master and apply the `k8s-upgrade` state.
 
 ## Known Issues
 
 ### helm chart crd's
 rke2 provides a crd that deploys helm charts onto the cluster from a single manifest. however, these resources create finalizers that don't properly uninstall the namespace. the fix found here `https://github.com/k3s-io/helm-controller/issues/33#issuecomment-2439771780` works to get the namespace fully deleted:  
-#### in the namespace configuration (either kubectl edit the namespae or edit it with k9s)
+#### in the namespace configuration (either kubectl edit the namespace or edit it with k9s)
 1. add this annotation: `helmcharts.helm.cattle.io/unmanaged: "true"`
 2. set `metadata.finalizers: []` (delete the content that was there before)
 3. the namespace should delete itself after this, but it can be deleted with kubectl or k9s
@@ -122,12 +122,12 @@ although resources in `/var/lib/rancher/rke2/server/manifests` are deployed and 
 the easiest way to fix this is to run the `/usr/local/bin/rke2-uninstall.sh` script and re-apply the salt state.
 
 ### CoreDNS
-currently coredns, which handles dns for the cluster's pod name resolution and name resolution for other hosts, does not properly work. in the logs, it shows an i/o timeout whenever trying to resolve names both inside and outside the cluster. coreDNS can actually hitting the correct dns server, but the connection is still timing out. while this appears to be a firewall issue, creating a network policy allowing all traffic for the namespace does not fix the issue. this issue is circumvented by the gitlab runners by setting the gitlab server host name on the containers themselves.
+currently coredns, which handles dns for the cluster's pod name resolution and name resolution for other hosts, does not properly work. in the logs, it shows an i/o timeout whenever trying to resolve names both inside and outside the cluster. coreDNS can actually hitting the correct dns server, but the connection is still timing out. while this appears to be a firewall issue, creating a network policy allowing all traffic for the namespace does not fix the issue. this issue is circumvented by the GitLab runners by setting the GitLab server host name on the containers themselves.
 
 ### metallb/traefik integration
 currently, the following setup is used for ingress traffic:
-`Outside Network -> External IP -> MetelLB -> Traefik -> Service -> Pod`  
-sending requests to the external ip (using a dns hostname) works on the host node. however, attempting to access it outside the node does not work properly. metallb is configured to do an L2 advertisement of the service on the external IP, and then send those requests to traefik. the traffic is able to hit metallb, but it gives an error that it can't decrypt the message, which causes the connection to timeout on the client side. there has been limited success with getting this setup to work (by setting another service to use the external IP and then switching it back) but the issue remains largely unresovled.
+`Outside Network -> External IP -> MetalLB -> traefik -> Service -> Pod`  
+sending requests to the external ip (using a dns hostname) works on the host node. however, attempting to access it outside the node does not work properly. metallb is configured to do an L2 advertisement of the service on the external IP, and then send those requests to traefik. the traffic is able to hit metallb, but it gives an error that it can't decrypt the message, which causes the connection to timeout on the client side. there has been limited success with getting this setup to work (by setting another service to use the external IP and then switching it back) but the issue remains largely unresolved.
 
 ## Future Improvements
 ### service tls configuration
@@ -135,7 +135,7 @@ sending requests to the external ip (using a dns hostname) works on the host nod
 using this guide, a configuration of tls for webservices had been started. the guide details creating a certificate authority for the root authority and an intermediate certificate authority that issues certificates for the services
 
 ### single image registry
-currently, a docker registry container is being run on each node in the cluster, which takes up more space than necessary because each node has two copies of the images they need. a more efficient solution would be to change the service configuration to point to a singluar external registry that contains the necessary images
+currently, a docker registry container is being run on each node in the cluster, which takes up more space than necessary because each node has two copies of the images they need. a more efficient solution would be to change the service configuration to point to a singular external registry that contains the necessary images
 
 ## Contributions
 
