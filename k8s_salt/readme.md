@@ -29,10 +29,10 @@ k8s:
    - ...
 ```
 
-## Salt Architecture
+## Salt Structure
 
 
-## Cluster Architecture
+## Architecture
 ### kubernetes core
 in place of upstream kubernetes, Rancher Kubernetes Engine 2 was used as the kubernetes distribution. it comes packaged with the following components:
 - the rke2 implementation of `kubelet`
@@ -51,7 +51,7 @@ this is the traditional way to get images onto a kubernetes cluster. a registry 
 rke2 comes with the ability to place archived images in `/var/lib/rancher/rke2/agent/images`, which it then caches locally instead of needing to pull them. this is how the rke2 core images are loaded onto the server.
 
 ### gitlab runner 
-[https://docs.gitlab.com/runner/executors/kubernetes/]
+`https://docs.gitlab.com/runner/executors/kubernetes/`
 the gitlab runner kubernetes executor runs as a single container that spawns in new containers to perform jobs whenever it is given a job.
 
 the gitlab runner is deployed to the kubernetes cluster using the helm chart. however, instead of applying the chart normally with the helm cli tool, it is instead deployed as a manifest using rke2's HelmChart crd. the main gitlab runner container image has been modified to add a ca trust certificate so that it can properly operate with custom certificates. for the helm chart, in order to comply with the rke2 cis profile's podSecurity requirements, the values.yaml has added a patch to each of the containers that the runner uses to configure their podSecurity. Lastly, in order to circumvent the isssue with coreDNS (details below), the gitlab server is added as a host alias to each of the pods.
@@ -69,7 +69,11 @@ the following tools are used to manage the cluster. both require the KUBECONFIG 
 - [**k9s**](https://k9scli.io/)
   - this tool is used to monitor and manage the cluster through a gui, located in `/usr/local/bin`
   - it also requires the KUBECONFIG environment variable to be correctly set
-it is recommended that when testing new resources to add to the cluster, that they are applied with `kubectl -f <file.yaml>`. once they are in a final form, they should then be added to the `/var/lib/rancher/rke2/server/manifests` directory.
+it is recommended that when testing new resources to add to the cluster, that they are applied with `kubectl -f <file.yaml>`. once they are in a final form, they should then be added to the `/var/lib/rancher/rke2/server/manifests` directory.  
+- **rke2-killall.sh**
+ - this script (located in `/usr/local/bin`) stops all rke2 processes, and can be useful when trying to restart processes when there's errors not fixed by restarting the systemd service
+
+
 ## Removal
 rke2 comes with the uninstall script `/usr/local/bin/rke2-uninstall.sh`, which completely uninstalls the cluster.
 
@@ -84,7 +88,7 @@ this can be done by running the [upgrade_deps.sh](upgrade_deps.sh) script and mo
 ## Known Issues
 
 ### helm chart crd's
-rke2 provides a crd that deploys helm charts onto the cluster from a single manifest. however, these resources create finalizers that don't properly uninstall the namespace. the fix found here [https://github.com/k3s-io/helm-controller/issues/33#issuecomment-2439771780] works to get the namespace fully deleted:  
+rke2 provides a crd that deploys helm charts onto the cluster from a single manifest. however, these resources create finalizers that don't properly uninstall the namespace. the fix found here `https://github.com/k3s-io/helm-controller/issues/33#issuecomment-2439771780` works to get the namespace fully deleted:  
 #### in the namespace configuration (either kubectl edit the namespae or edit it with k9s)
 1. add this annotation: `helmcharts.helm.cattle.io/unmanaged: "true"`
 2. set `metadata.finalizers: []` (delete the content that was there before)
@@ -95,19 +99,42 @@ although resources in `/var/lib/rancher/rke2/server/manifests` are deployed and 
 the easiest way to fix this is to run the `/usr/local/bin/rke2-uninstall.sh` script and re-apply the salt state.
 
 ### CoreDNS
-currently coredns, which handles dns for the cluster's pod name resolution and name resolution for other hosts, does not properly work. 
+currently coredns, which handles dns for the cluster's pod name resolution and name resolution for other hosts, does not properly work. in the logs, it shows an i/o timeout whenever trying to resolve names both inside and outside the cluster. coreDNS can actually hitting the correct dns server, but the connection is still timing out. while this appears to be a firewall issue, creating a network policy allowing all traffic for the namespace does not fix the issue. this issue is circumvented by the gitlab runners by setting the gitlab server host name on the containers themselves.
 
 ### metallb/traefik integration
-
+currently, the following setup is used for ingress traffic:
+`Outside Network -> External IP -> MetelLB -> Traefik -> Service -> Pod`  
+sending requests to the external ip (using a dns hostname) works on the host node. however, attempting to access it outside the node does not work properly. metallb is configured to do an L2 advertisement of the service on the external IP, and then send those requests to traefik. the traffic is able to hit metallb, but it gives an error that it can't decrypt the message, which causes the connection to timeout on the client side. there has been limited success with getting this setup to work (by setting another service to use the external IP and then switching it back) but the issue remains largely unresovled.
 
 ## Future Improvements
 ### service tls configuration
-[https://raymii.org/s/tutorials/Self_signed_Root_CA_in_Kubernetes_with_k3s_cert-manager_and_traefik.html]  
+`https://raymii.org/s/tutorials/Self_signed_Root_CA_in_Kubernetes_with_k3s_cert-manager_and_traefik.html`
 using this guide, a configuration of tls for webservices had been started. the guide details creating a certificate authority for the root authority and an intermediate certificate authority that issues certificates for the services
 
-
+### 
 
 
 ## Contributions
 
 ## License
+MIT License
+
+Copyright (c) 2025 Brandon Baumgartner
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
