@@ -2,6 +2,45 @@
 
 set -o pipefail
 
+help(){
+	echo "Usage: $0 [option"
+ 	echo "-i|--install 			download the dependencies to initially install the cluster"
+  	echo "-u|--upgrade			download the dependencies to upgrade the cluster"
+}
+
+# param checking
+upgrade="false"
+install="false"
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            help
+            exit 0
+            ;;
+        -i|--install)
+			if [[ upgrade == "true" ]]; then
+   				echo "please only choose one option"
+	   			exit 1
+	   		fi
+	  		install="true"
+			shift
+            ;;
+        -u|--upgrade)
+            if [[ install == "true" ]]; then
+   				echo "please only choose one option"
+	   			exit 1
+	   		fi
+	  		upgrade="true"
+			shift
+            ;;
+        *)
+            echo "unrecognized option $1"
+            exit 1
+            ;;
+    esac
+done
+
+
 # sourcing the install.sh script except for the last two lines that execute it
 wget -O install.sh get.rke2.io
 if [[ "$(sha256sum install.sh)" != "2d24db2184dd6b1a5e281fa45cc9a8234c889394721746f89b5fe953fdaaf40a  install.sh" ]]; then
@@ -62,19 +101,33 @@ setup_tmp() {
 }
 
 if [[ upgrade == "true" ]]; then
+	setup_env
+	setup_arch
+	verify_downloader curl || verify_downloader wget || fatal "can not find curl or wget for downloading files"
+	get_release_version
+	setup_tmp
+	download_bin
+	download_airgap_tarball
+	
+	echo -e "[info] contents of the tmp directory:\n$(ls ${TMP_DIR})"
+	mkdir rke2-tmp
+	cp -r ${TMP_DIR}/* rke2-tmp/.
+	info "copied contents of the tmp directory to ./rke2-tmp"
+	rm -f install.sh trimmed-install.sh
+	
+	pushd rke2-tmp
+	
+	tar -cvf deps.tar $(ls)
+	info "dependencies saved to deps.tar"
+	cp deps.tar ../.
+	
+	popd
+	
+	rm -rf rke2-tmp
+	exit 0
+fi
 
-
-
-
-
-
-
-
-
-
-
-
-
+# else do the installation dependencies
 setup_env
 setup_arch
 verify_downloader curl || verify_downloader wget || fatal "can not find curl or wget for downloading files"
@@ -93,15 +146,12 @@ pushd rke2-tmp # creating the tarfile to be moved onto the airgap
 # creating the salt state expected filesystem structure
 mkdir files
 pushd files
-
 mkdir server
 pushd server
-
 mkdir scripts
 pushd scripts
 	wget -O install.sh get.rke2.io
 popd # scripts
-
 mkdir archives
 pushd archives
 
