@@ -29,6 +29,10 @@ k8s:
    - ...
 ```
 there are also file dependencies that need to be installed. [this script](install_deps.sh) handles downloading the necessary files and placing them in the correct directory within a tar file. once the script has been run, the created `deps.tar` file can be placed inside the `salt/` directory and untarred with `tar -xvf deps.tar` (the tar file can then be removed to save space). the following pillars then must be set:
+```
+
+
+
 
 ## Salt Structure
 file &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | purpose
@@ -51,14 +55,14 @@ file &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp
 
 ## Architecture
 ### kubernetes core
-in place of upstream kubernetes, Rancher Kubernetes Engine 2 was used as the kubernetes distribution. it comes packaged with the following components:
+in place of upstream kubernetes, Rancher Kubernetes Engine 2 (`https://docs.rke2.io/`) was used as the kubernetes distribution. it comes packaged with the following components:
 - the rke2 implementation of `kubelet`
 - etcd for the control plane data store
 - canal for the CNI
   - flannel for the overlay network and calico for the network policies
 - helm controller for a built-in way to deploy helm charts
 - nginx ingress controller
-instead of using nginx, which is the default ingress, traefik was used instead.
+instead of using nginx, which is the default ingress, upstream traefik was used intead (.
 
 there are two ways of getting images onto the cluster:
 #### - pulling them from a registry
@@ -128,8 +132,7 @@ sending requests to the external ip (using a dns hostname) works on the host nod
 using this guide, a configuration of tls for webservices had been started. the guide details creating a certificate authority for the root authority and an intermediate certificate authority that issues certificates for the services
 
 ### single image registry
-currently, a docker registry container is being run on each node in the cluster, which takes up more space than necessary because each node has two copies of the images they need. a more efficient solution would be to change the service configuration to point to a singluar external registry that contains the necessary images.
-
+currently, a docker registry container is being run on each node in the cluster, which takes up more space than necessary because each node has two copies of the images they need. a more efficient solution would be to change the service configuration to point to a singluar external registry that contains the necessary images
 
 ## Contributions
 
